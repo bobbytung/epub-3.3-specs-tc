@@ -1,0 +1,644 @@
+# EPUB 3 總覽
+W3C小組紀錄 04 October 2022
+
+更多關於此份文件的細節
+
+本版本：
+
+https://www.w3.org/TR/2022/注意事項-epub-overview-33-20221004/
+
+最新發佈版本：
+
+https://www.w3.org/TR/epub-overview-33/
+
+最新編輯草稿：
+
+https://w3c.github.io/epub-specs/epub33/overview/
+
+歷史：
+
+https://www.w3.org/standards/history/epub-overview-33
+
+發布歷程
+
+編輯者：
+
+Matt Garrish (DAISY Consortium)
+Ivan Herman (W3C)
+
+提出回饋：
+
+GitHub w3c/epub-specs (提交請求, 新主題, 開放主題)
+以郵件主旨*[epub-overview-33]…信件主題*…寄到public-epub-wg@w3.org (存檔)
+
+Copyright © 1999-2022 W3C® (MIT, ERCIM, Keio, Beihang). W3C liability, trademark and permissive document license rules apply.
+
+## 摘要
+
+EPUB® 3定義了一個格式，供數位出版品及文件用於配布及交換。EPUB格式提供一種手段，來表現、包裝，以及將結構化和增強語意的網頁內容——包括HTML、CSS、SVG以及其他資源——進行編碼，以單一檔案容器形式供配布使用。
+
+本總覽為一般性的入門導覽，供任何對EPUB 3出版品感興趣，想要了解所具備的功能的大眾使用。並不預期作為該格式，以及打造閱讀系統的技術導論。
+
+## 本文件狀態
+
+本章節描述了本文件在其發表時的狀態。目前W3C出版品及此技術報告的最新改版之列表皆列於W3C技術報告索引，網址為：https://www.w3.org/TR/
+
+本文件由EPUB 3工作小組按照紀錄流程，發布為小組紀錄。
+
+小組紀錄不受W3C及其會員背書。
+
+本文件為草稿，而且可能會隨時更新，被其他文件所取代或淘汰。編輯作業尚未完成前，不適宜引用本文件。
+
+W3C專利政策對此文件不做任何授權需求與承諾。
+
+本文件受2021年11月2日W3C流程文件所規範。
+
+## 目次
+
+摘要
+
+本文件狀態
+
+1. 導論
+1.1 如何閱讀本文件
+1.2 如何閱讀規格群
+1.3 版本編號
+2. EPUB容器
+3. 包裝文件
+4. 導覽
+4.1 閱讀順序
+4.2 導覽文件
+5. 內容文件
+5.1 排版與CSS
+5.2 多媒體
+5.3 字型
+5.4 腳本
+5.5 語意擴增
+5.6 結構語意
+6. 版面
+6.1 可重排的版面
+6.2 固定版面
+7. 媒體覆蓋
+8. 全球語言支援
+9. 無障礙輔助性
+10. 新的實驗性功能
+A. EPUB 3文件
+A.1 規格群
+A.2 紀錄
+B. EPUB改版歷史
+B.1 OEB, OCF與EPUB 2: 1999—2010
+B.2 EPUB 3.0: 2010
+B.3 EPUB 3.0.1: 2014
+B.4 EPUB 3.1: 2017
+B.5 EPUB 3.2: 2018
+B.6 EPUB 3.3: 2022
+C. 索引
+C.1 參考資料定義的術語
+D. 致謝
+E. 參考資料
+E.1 參考性資料
+
+## 1. 導論
+
+### 1.1 如何閱讀本文件
+
+EPUB 3格式透過利用開放Web平台的各種特色與機能，提供出版者能夠打造先進閱讀體健的能力。該能力使用HTML、SVG、CSS以及JavaScript，不僅提供了豐富且具互動性的閱讀體驗，也能夠製作各種語言的內容，無論預設的書寫方式為橫排還是直排。選擇使用這樣的技術也使EPUB出版品在產製時即具備無障礙輔助能力，以符合廣範圍的使用者需求。
+
+本總覽以較高的層次來發掘EPUB 3各項製作上能夠提供功能性的特色。本文件不試圖成為製作EPUB出版品的教學指南、也不對該格式的技術細節，或閱讀系統如何運作作深入探討。相對之下，本文件的目的為提供給更廣泛的讀者，讓他們能探索並理解使用EPUB 3格式製作數位出版品的優點，而無需閱讀整份技術規格。
+
+然而，在直接進入這些特色之前，能夠具備EPUB出版品架構的基本概念認知將會有所助益。一個EPUB檔案就是一個有效的ZIP檔案，提供了一些識別用的後設資料，能讓閱讀系統得以識別並且用於處理出版品（ZIP檔案在規格中稱為EPUB容器）。
+
+此處理程序中的一個關鍵檔案稱為包裝文件。其提供了關於此出版品的後設資料、列出所有資源，並且指定EPUB內容文件（即為XHTML和SVG文件，處理後用來提供內容）的順序。
+
+另一個關鍵檔案是EPUB導覽文件。此文件包含了該出版品的目次，同時也可以包含其他出版者定義的導覽輔助（例如一份頁面列表或者地標列表）
+
+以下圖片讓一本EPUB出版品的結構以視覺化呈現：
+
+一本EPUB出版品主要架構的視覺化結構
+
+圖片說明
+
+「EPUB(OCF)容器」作為最外層的元件封裝整個「EPUB出版品」，其中包含兩份文件「出版品文件」以及「EPUB導覽文件」伴隨著一個內部元件名為「出版品資源」，其中包含多個「EPUB內容文件」（XHTML, SVG)，以及多個「其他資源」（CSS, png, mp3, mov等）。
+
+本文件內文展示了各種具備詳盡細節的資源，以能達成進一步理解EPUB 3出版品中各項功能的目標。
+
+### 1.2 如何閱讀規格群
+
+若對本文件所提供一般性導論不滿足，想要進一步獲得更多資訊。EPUB 3.3規格[epub-33]包含了所有必要的製作資訊。
+
+在EPUB 3.3版本前，閱讀EPUB 3規格可能是種挑戰。該格式被切割分為多個文件，同時每一份文件中的製作與閱讀系統需求散亂混雜。EPUB 3.3版發布，已經整合成一份文件。
+
+此外，對於EPUB出版品的無障礙輔助性需求在EPUB無障礙輔助性規格[epub-a11y-11]中進行說明。像EPUB 3這樣數位格式所能提供的最大優勢，其中一項就是能打破印刷內容的無障礙藩籬。只要在製作時注意無障礙需求，出版品就能有著多樣需求的使用者都能夠使用。
+
+透過閱讀閱讀系統規格[epub-rs-33]，能夠理解內容的處理程序，以及程序的技術細節。這些資訊對製作內容而言，並非必要。
+
+###### 注意事項
+
+在A. EPUB 3文件中有所有推薦流程的EPUB 3規格以及參考性的紀錄。
+
+### 1.3 版本編號
+
+對於新接觸EPUB的人，一開始都會對「EPUB 3」格式與EPUB 3規格編號感到困惑。最新版本的EPUB 3由EPUB 3.3規格[epub-33]所定義。該規格後的小數（「.3」）用來與下一個發布版作為區分，但並非每個發布版都為新的規格。
+
+維護EPUB 3的W3C工作小組致力於不讓依循早先版本規格製作的內容失效，舉個例子，基於EPUB 3.0規格製作的EPUB 3出版品，也應該合乎EPUB 3.3版的需求。
+
+這也是為什麼本總覽名為「EPUB 3」，主要因為每份規格發布版與下一版的差異一般來說不會有顯著差異。
+
+###### 注意事項
+
+在B. EPUB改版歷史中，提供了每個版本變革的一般性總覽。
+
+## 2. EPUB容器
+
+一本EPUB出版品，會以單一檔案（一份「可攜式文件」）的方式被傳送以及交換，其中含有包裝文件（可能不只一份），EPUB內容文件，以及其他在處理出版品上所必需的資源。供EPUB使用的單一檔案容器基於廣受採用的ZIP格式，以及一份XML文件用來識別包裝文件位置，利用預先定義封裝中位置的方式，來指定ZIP封裝中出版品的位置。
+
+這種方式，在EPUB出版品的製作者以及任何使用EPUB出版品的系統間，提供了清楚的協定，同時也提供了可靠的表述方式，獨立於網路傳輸或者指定的檔案系統。
+
+這也確保了EPUB出版品能夠以廣泛易於取得的ZIP工具來製作或者編輯。出版者可彈性運用市售的編輯應用程式，或者建構自己的內容轉換機制來處理。
+
+若想了解更多關於一本EPUB出版品以單一容器檔案呈現的資訊，請參考[epub-33]中的開放容器格式（Open Container Format, OFC）章節。
+
+## 3. 包裝文件
+
+每一本EPUB出版品都由一份包裝文件作為代表。包裝文件指定了所有必需的資源供處理內容表現使用。包裝文件也定義了線性閱讀時的閱讀順序，並且連結後設資料以及導覽資訊。
+
+包裝文件在一般網站的傳統架構之上，定義了一個層級，以便於製作數位出版品。
+
+舉一個網站為例，若在內容中嵌入參照資料作為其資源使用，最簡單且具彈性的手段就是識別資源，但卻難以列舉所有處理內容所必需的資源。此外，也沒有標準的方式來定義網站中各頁面的順序來建構出一個較大的出版品，這也就是EPUB書脊（spine）元素[epub-33]的目的（也就是提供外部宣告式的手段來明確指出如何為一組文件集合排出順序）。
+
+包裝文件也提供了表述適用於整體內容之後設資料的標準方式。每一份包裝文件都包含一個後設資料區塊[epub-33]以提供該EPUB出版品的一般性資訊，可讓書名、作者、識別碼以及其他資訊能夠被輕易取得，並且呈現予使用者。其也提供了使用link元素添加完整書目地記錄的方式[epub-33]。
+
+包裝文件也允許使用unique-identifier屬性[epub-33]來為EPUB出版品建構一個獨特的識別碼。此識別碼讓出版者能更用來區分出版品，甚至用於區分不同版本。
+
+若想了解更多關於包裝文件的資訊，請參考[epub-33]中的包裝文件章節。
+
+## 4. 導覽
+
+### 4.1 閱讀順序
+
+EPUB的核心概念就是，一本EPUB出版品包含多重的資源，可以被個人或者程式以一些特定的順序完整導覽並且消費使用。
+
+許多類別的出版品有著顯而易見的閱讀順序，或者在內容中有著邏輯進程。小說就是一種高度序列化文件的範例——它一般來說有著開頭、中間與結尾——但並非所有的出版品都這麼整然有序：一本食譜或攝影作品集可能更像是一個資料庫。然而，所有的文件都應該至少有一個邏輯順序，供所有的最高層級內容物件排序，無論是按照日期、主題、位置或者一些其他的分類法（例如，食譜一般會按照烹飪方法來分類）。
+
+每一本EPUB出版品都至少需要在其書脊中定義一項這樣的邏輯順序，來排列所有最高層級內容。也可以在EPUB導覽文件[epub-33]中定義一組描述性的目次。EPUB出版品使這些資料結構在內容之外可以透過機器可讀取的方式取得，使其易於被發現和使用。
+
+EPUB出版品不限制以線性方式將其內容做排序，也不排除以任意的方式做連結——就像網頁一樣，EPUB出版品基於超文本建構——但可以透過此方式確實做到最基本的使用和導覽，HTML網頁就沒有這樣的方法。
+
+### 4.2 導覽文件
+
+每一本EPUB出版品都包含一個特殊的XHTML內容文件，稱為EPUB導覽文件。此文件使用[html]的nav元素以定義人類和機器可讀取的導覽資訊。所有的閱讀系統都可利用EPUB導覽文件來對使用者呈現目次。
+
+EPUB導覽文件對所有使用者提供最低限度的無障礙輔助以及導覽協助，以及提供功能來增強導覽。這些之中，最主要為國際化支援（舉個例子，EPUB導覽文件本身作為XHTML文件，原生支援Ruby註解）並且支援嵌入語法（在導覽連接中可以包含MathML以及SVG）。
+
+儘管不強制要求EPUB閱讀系統在處理資料建立自己的目次時，需支援這些先進的文字格式功能，但EPUB導覽文件可具備雙重用途，這些功能依然可以對預期的讀者有用處。出版者可以將EPUB導覽文件包含在書脊中[epub-33]（也就是作為出版品內容的一頁），這麼一來使用者就可以直接存取完整的HTML。
+
+在EPUB出版品的內文中包含EPUB導覽文件也可以讓出版者為使用者以及閱讀系統打造不同的顯示。例如，一份結構複雜的文件，可能就不會想把完整的目次在出版品內文中展現給使用者看。在這案例中，顯示層級可以使用hidden屬性[epub-33]來進行調整。這項屬性會被閱讀系統在書脊外處理目次時所忽略（也就是以自己特化的介面展示），可以避免將能用於增進整體無障礙輔助性的資訊被最小化。
+
+出版者也能提供額外的nav元素，當EPUB出版品包含非結構化興趣點，像是分頁、地標、圖片、表格等，以更進一步強化對內容的存取。
+
+若想了解更多關於EPUB導覽文件結構與語意的資訊，請參考[epub-33]中的EPUB導覽文件章節。
+
+## 5. 內容文件
+
+每一本EPUB出版品都包含一或多份EPUB內容文件，如EPUB內容文件[epub-33]所定義。這些XHTML或SVG文件用來敘述可供閱讀的內容，以及參照相關的媒體資源（例如，影像、聲音檔以及影片片段）。
+
+XHTML內容文件由[html]中的一項描述檔所定義。
+
+### 5.1 排版與CSS
+
+EPUB的核心概念就是內容呈現可由讀者調整成適合的樣貌，而不是讀者非得去配合特定的內容呈現形式。HTML一開始就被設計成能夠支援結構化內容的動態排版，但逐漸HTML在網頁瀏覽器中的支援越來越集中於網頁應用程式的需求上，同時許多熱門的網站現在的版面越來越不具彈性。
+
+然而EPUB出版品被設計為能對視覺障礙者提供最大化無障礙輔助性，閱讀系統一般會即時處理文字行列版面以及分頁，以適應顯示區域的尺寸、使用者偏好的文字尺寸和其他環境要素。這項行為在EPUB中不受到保證；影像、向量圖像、影片以及其他無法被重排的內容可能也包含在內，以及一些閱讀系統可能不會即時分頁或者完全不分頁。然而，支援動態適應性版面以及無障礙輔助性一向是EPUB標準長期演化的主要設計考量。
+
+EPUB內容文件可以參照CSS樣式表，讓出版者可能定義想要的排版特性。EPUB 3支援的CSS定義於[csssnapshot]。
+
+EPUB 3也支援直排與橫排的CSS樣式以及由左到右和由右到左的書寫方式。
+
+### 5.2 多媒體
+
+EPUB 3支援在XHTML內容文件中，使用[html]的audio和video元素來嵌入影音，也承繼了所有這些元素能夠提供的特色與機能（例如，內建開始、停止控制以及音量控制）。若想了解更多關於EPUB 3支援聲音與影片格式的資訊，請參考[epub-33]中的核心媒體類別章節。
+
+### 5.3 字型
+
+EPUB 3支援兩種緊密相關的字型格式——OpenType[opentype]與WOFF[woff] [woff2]——以相容傳統出版的工作流程以及日益興起以網頁為基礎的工作流程。例如，文字處理軟體用於製作EPUB出版品時可能只會存取已經安裝的OpenType字型集合，然而將網頁封存成EPUB的產生器則可能只會存取WOFF資源（該檔案在抽離WOFF後設資料的狀況下，無法被轉換成OpenType，通常也不希望被在沒有授權的狀況下被轉換）。
+
+EPUB 3也同時支援模糊化與一般的字型支援，無論OpenType與WOFF字體格式。對模糊化字體資源的支援，對許多商售字體的授權限制而言為必需，請參考[epub-33]字體模糊化以獲得更多資訊。
+
+### 5.4 腳本
+
+EPUB力求以宣告式的方式處理內容——資料可以被更動，但不像可以執行的程式——卻依然支援腳本，如[html]及[svg]所定義。這讓出版者可以建立、添加動態內容，如問答、互動遊戲，以此類推。
+
+然而，在EPUB出版品中的腳本需要面對與在網頁瀏覽器中執行腳本不一樣的安全性考量。例如具代表性的同源政策（same-origin policies）並不適用於被下載到使用者端系統的內容。基於這些原因，腳本的使用最好限制於對使用者經驗為必須的狀況上，這麼做也會增加可能性，讓內容無法在所有閱讀系統間具備可攜性，也可能會製造對無障礙輔助性的隔閡，影響內容再利用的可能。
+
+也必須注意EPUB 3並不要求閱讀系統一定要支援腳本，所以可能會因安全性考量而不支援。出版者需要思考，當腳本對內容而言為必要時，自己的出版品如何能被使用者閱讀的方法。
+
+請參考[epub-33]的腳本以獲得更多與腳本相容性相關的資訊。
+
+### 5.5 語意擴增
+
+XHTML內容文件也包含以豐富後設資料對文件增加註解的手段，這可以使文件在語意上更具意義，並且在處理上以及無障礙輔助性目的上都能受用。出版者可以使用RDFa[rdfa-in-html]與Microdata[microdata]兩種屬性來達成，也可以在[html]的script元素中嵌入JSON-LD後設資料紀錄[json-ld]。
+
+### 5.6 結構語意
+
+EPUB 3也能使用epub:type屬性[epub-33]來為EPUB內容文件中的任何元素添加額外資訊，能夠表述在作品中的目的以及意義。
+
+儘管這些語意主要用於出版者的內部工作流程，在某些狀況下，他們也可以用來加強閱讀系統的行為（特別是作為跳出式註釋）。
+
+請參考[epub-33]的表達結構語意章節以獲得更多資訊。
+
+## 6. 版面
+
+### 6.1 可重排的版面
+
+作為核心目標，EPUB為了提供動態版面所設計：內容預期會被即時動態生成，而並非預先以分好頁的方式排版呈現。這項核心能力對於針對不同尺寸裝置的螢幕或者視窗尺寸進行最佳化排版極為有用，也能簡便地為內容提供無障礙輔助。
+
+EPUB 3也能藉由後設資料，讓出版者指定可重排內容以何種方式呈現。支援此功能的閱讀系統可以為可重排的文件以捲軸方式呈現給使用者，以取代分頁方式。
+
+若想了解更多資訊，請參考[epub-33]的可重排版面章節。
+
+### 6.2 固定版面
+
+儘管EPUB發展歷史長期致力於發展可重排內容，但並非所有出版品都能輕易地轉成重排。像是童書、漫畫、雜誌以及其他多種內容形式，就需要精準的分頁版面來提供完整的表現。
+
+EPUB 3透過既有SVG技術來製作固定版面的方法之外，可以運用後設資料來創建固定版面的XHTML內容文件[epub-33]。這項後設資料可以啟動對頁面尺寸的控制[epub-33]，製作出基底，讓各種元素能夠精準定位。
+
+後設資料不僅可以用來決定內容要以固定還是可重排的方式呈現，也能讓出版者指定想要的頁面方向[epub-33]，何時要建立同步跨頁[epub-33]，以及在這些跨頁中，要如何擺設頁面[epub-33]，為EPUB出版品的表現提供了廣範圍的控制。
+
+若想了解更多資訊，請參考[epub-33]的固定版面章節。
+
+## 7. 媒體覆蓋
+
+EPUB 3另外一個關鍵多媒體功能就是能夠定義媒體覆蓋。當EPUB出版品有預錄的旁白可供使用時，媒體覆蓋提供了讓聲音與EPUB內容文件上的文字同步播放的能力。使用者可以看著EPUB出版品上高光強調的文字，邊聽這些文字的朗讀，或者只聽聲音。
+
+媒體覆蓋所帶來的好處，遠超乎於顯而易見的無障礙輔助性，除了可以讓無法看到內容者聽見內容之外。例如，可以透過文字與聲音同步作為學習朗讀的工具。
+
+若想了解更多關於製作媒體覆蓋的資訊，請參考[epub-33]的媒體覆蓋章節。
+
+## 8. 全球語言支援
+
+EPUB 3活用了XHTML、SVG、CSS或MathML對於全球語言支援的特色，並且依靠[unicode]作為內容編碼。這代表著EPUB內容文件能夠使用不同的字元組並且呈現雙向文字、Ruby註解，以及多種多樣語言與文化的排版呈現。
+
+以下列表描述了一些專屬於EPUB 3的關鍵全球語言支援特徵：
+
+### 不同語言的後設資料
+
+EPUB 3包裝中的後設資料區塊中，可支援各種文字的後設資料來為不同語言添加表述，這有助於EPUB出版品於全球發行。alternate-script特性[epub-33]可以和xml:lang屬性組合以包含並識別語文，用於處理該語言專屬的後設資料。
+
+舉個例子。使用此特性，一本日文的EPUB出版品可以包含以羅馬（拼音）文字表述的作者名和/或以拉丁文字書寫的一種以上的書名翻譯。
+
+### 基礎文字方向
+
+文字後設資料項目也需要在屬性中指定基礎方向[epub-33]，可以用來針對雙向文字進行細微控制（例如，書的標題中同時包含拉丁文字以及阿拉伯或希伯來文字母）。
+
+### 翻頁方向
+
+包裝文件中的page-progression-direction屬性可以指定全域EPUB內容文件的排列方向，以便於處理（請見[epub-33]中的page-progression-direction）。
+
+### 字型
+
+EPUB 3不強制要求閱讀系統需提供一組內建的系統字型。在網頁的脈絡下，使用者在特定的地區設定下，可能已經安裝一些字型，而這些字型會無法用於顯示其他地區設定所需要的文字，這時閱讀系統可以使用自有的字型或者字型引擎，而不使用作業系統安裝的字體。就結果而論，EPUB出版品的文字內容在所有閱讀系統上的原生排版顯示可能會不如預期。
+
+EPUB支援嵌入字型有助於處理文字內容，使內容的排版如預期一般呈現。
+
+支援嵌入字型同時能讓出版者確保EPUB出版品中特殊的符號與字形能夠正確顯示。
+
+### 容器
+
+OCF容器格式支援UTF-8，允許內容資源的檔案以及目錄可以使用國際化名稱。
+
+## 9. 無障礙輔助性
+
+EPUB的一大主要目標就是增進內容的無障礙輔助性，所以多種EPUB 3的功能都支援此項需求。更進一步說明，EPUB無障礙輔助性規格[epub-a11y-11]提供了用於評估EPUB出版品無障礙輔助性的框架。其完成了延伸網頁內容無障礙指引（Web Content Accessibility Guidelines[wcag21]）的工作，該份指引為全球認同的內容無障礙標準。
+
+該規格定義了產製能被更廣範圍的使用者存取的EPUB出版品之需求。也伴隨著一份技術文件[epub-a11y-tech-11]其描述達到這些需求的最佳實踐。
+
+值得注意的是，無障礙輔助性自身相當重要，具備無障礙的內容是更有價值的內容：一本具無障礙輔助性的EPUB出版品可以適應更多的設備，並且容易再利用，無論整體或者部分，無論透過手工還是自動化的工作流程。
+
+一些EPUB 3的特殊內容功能可以用於製作高度具無障礙輔助的內容，包括：
+
+### HTML語意標記
+
+與EPUB 2相較，EPUB 3所支援版本的HTML加入了一系列的新元素，可以讓標記更加具備語意上的意義。舉例而言，包括[html]的section、nav、以及aside元素。這些外加的元素可以讓內容在分類與定義上更加完整，可助於表達文件結構，便於邏輯導覽。 
+
+### HTML多媒體元素
+
+[html]的audio及video元素提供了內建的控制，並且能與輔助技術通用。這些新元素讓使用者可以直接控制播放，不再需要依靠透過無障礙支援做得很糟的插件了。
+
+### 可重排的版面
+
+EPUB出版品預設透過重排以符合可使用的螢幕空間。這讓使用者可以更換他們想要的顯示方式（例如，調大字型尺寸、行距以及字距）而不會讓出版品變得無法閱讀——調整尺寸後的內容自身會重新在可用的空間中排列。
+
+### ARIA支援
+
+EPUB在XHTML及SVG內容文件中包含對ARIA角色（roles）、狀態（states）以及特性的表述支援。這些屬性可以讓出版者提升腳本控制以及元件的無障礙輔助性。
+
+## 10. 新的實驗性功能
+
+EPUB 3隨著網頁採用新的功能與技術而持續進化。本規格參考了一系列的網頁標準，當他們改版時，自動生效可供使用。例如HTML現在被稱為「活的標準」主要是因為只要有兩個實作，新功能就會被立即加入。EPUB 3參照的SVG[svg]、JavaScript[ecmascript]以及Unicode[unicode]也是一推出新版本立即採用，而CSS參照則與最新的快照[csssnapshot]相關聯。
+
+這意味著當這些標準加入新功能的同時，這些功能也立即合規，可以用於EPUB 3。（這不意外著可以立即使用這些功能，主要是閱讀系統通常需要較長的時間來實作支援，同時銷售方可能不見得一直希望這些新功能來挑戰他們的驗證規則）。
+
+EPUB工作小組也會持續介紹這些外於核心規格群的新的實驗性功能。這是一項代表性的作為，因為這些功能通常在真實世界的閱讀系統尚未支援，而工作小組會在將技術標準化之前，尋求實作上的回覆。
+
+目前就有兩個這樣的實現性功能：多內容釋義出版品[epub-multi-rend-11]以及文字轉換語音增強機制[epub-tts-10]。出版者可以在自己的出版品中使用這樣的功能，但必須要意識到，這些功能在支援上受限。
+
+## A. EPUB 3文件
+
+### A.1 規格群
+
+EPUB 3目前由以下規格群所定義：
+
+- EPUB 3.3[epub-33]：定義了EPUB出版品的製作規格以及需求，功能包括包裝以及導覽文件、EPUB內容文件、固定版面、媒體覆蓋以及容器格式。
+
+- EPUB閱讀系統 3.3[epub-rs-33]：定義了EPUB 3閱讀系統的合規性需求——閱讀系統為處理EPUB 3出版品的使用者代理。
+
+- EPUB無障礙輔助性 1.1[epub-a11y-11]：定義了內容合規性需求，以驗證EPUB 3出版品的無障礙輔助性。
+
+###### 注意事項
+
+這些推薦流程文件都包含了詳細的變更日誌已記錄從上一正式發布版本以來的主要變更。請個別參見EPUB 3.3、EPUB閱讀系統 3.3以及EPUB無障礙輔助性 1.1的變更日誌。
+
+### A.2 紀錄
+
+儘管以下文件為參考性，但他們也提供了實作EPUB 3規格以及定義實驗性功能的相關指引。
+
+- EPUB無障礙輔助性與歐盟無障礙法之對應關係[epub-a11y-eaa-mapping]：目的用於展示歐盟無障礙法與電子書相關的技術需求，以及如何透過EPUB標準達成。
+
+- EPUB無障礙輔助性技巧 1.1[epub-a11y-tech-11]：提供如何達成EPUB無障礙輔助性 1.1[epub-a11y-11]對於EPUB出版品發現性以及無障礙輔助性需求的指引。
+
+- EPUB多內容釋義出版品 1.1[epub-multi-rend-11]：定義如何製作與處理包含一個以上內容釋義的EPUB出版品
+
+- EPUB結構語意用語集 1.1[epub-ssv-11]：定義一組特性關於描述書寫作品的結構性語意。
+
+- EPUB文字轉換語音增強機制 1.1[epub-tts-10]：說明為提升EPUB出版品語音朗讀需有的製作功能與閱讀系統支援。
+
+
+## B. EPUB改版歷史
+
+### B.1 OEB, OCF與EPUB 2: 1999—2010
+
+EPUB基於名為開放電子書出版品結構（Open EBook Publication Structure,OEBPS）的交換格式。OEBPS 1.0於1999年由開放電子書論壇（Open eBook Forum）所通過，該組織後來改組為為國際數位出版論壇（International Digital Publishing Forum, IDPF）。後續1.1與1.2改版分別由IDPF於2001和2002年通過。
+
+當時認知到，在遞交以及交換兩方面，都有對標準格式的需求，於是在2005年底開始規劃供OEBPS使用的單一檔案容器格式，後來於2006年由IDPF以OEBPS容器格式（OEBPS Container Format, OCF）通過。2007年十月EPUB 2.0的改名與改版作業同步進行，並且於2010年九月通過。這項改版結合了規格的鐵三角：開放包裝格式（Open Package Format, OPF）、開放出版品格式（Open Publication Format, OPF）以及OCF。EPUB 2.0.1作為2.0規格的維護性改版，主要意圖以澄清、更正，對規格做出勘誤。請見[opf-201] [ops-201] [ocf-201]。
+
+### B.2 EPUB 3.0: 2010
+
+EPUB規格的大幅改版作業起於2010年，其目標在於讓EPUB與HTML兩規格能更為對齊，並且處理新增原生的多媒體功能、複雜的CSS版面處理以及嵌入字型、MathML支援、腳本互動性、直排文字以及其他全球語言支援的強化，以及提升無障礙輔助性。同時也推出新的規格：EPUB媒體覆蓋，讓文字與聲音能在EPUB出版品中同步播放。為了讓規格名稱更能貼近標準，開放包裝格式規格改名為EPUB出版品，以及開放出版品規格改名為EPUB內容文件。EPUB 3.0規格於2011年十月通過。請見[epubpublications-30] [epubcontentdocs-30] [ocf-30] [epubmediaoverlays-30] [epubchanges-30]。
+
+### B.3 EPUB 3.0.1: 2014
+
+EPUB 3.0.1改版於2013到2014進行，主要為細節修正以及更新，並且整合了固定版面文件，當可重排的EPUB不適合該內容時，出版者能對呈現做到更大的控制。請見[epubpublications-301] [epubcontentdocs-301] [ocf-301] [epubmediaoverlays-301] [epubchanges-301]。
+
+### B.4 EPUB 3.1: 2017
+
+EPUB 3.1是EPUB 3的第一個小改版。此次改版的目標是讓EPUB 3與當下的網頁標準更為貼近。對於重要標準的參照改為無日期版，這意味的當他們改版時，就可直接用於EPUB 3內容中（舉個例子，最新版本的HTML可以立即合規地用於EPUB；而不需要EPUB進行改版）。使用的CSS也進一步澄清，減少使用EPUB專有的特性。
+
+許多EPUB特有的功能也在標準中被移除，特別是內容的切換（Switching）、觸發（Triggers）以及綁定（Binding）。此項變更需要使用新的內容文件版本號碼。請見[epub-31] [epubpackages-31] [epubcontentdocs-31] [ocf-31] [epubmediaoverlays-31] [epubchanges-31]。
+
+### B.5 EPUB 3.2: 2018
+
+EPUB 3.2改版作業緊接在EPUB 3.1之後，以恢復對於EPUB 3內容的相容。EPUB 3.1需要變更版本號碼，對出版商、銷售方與閱讀系統開發者來說，意味著要產製、配布、處理兩個版本的EPUB內容，但這樣改變的花費遠遠超過新版本能帶來的好處。EPUB 3.2致力於保留EPUB 3.1版中最好的部分，改以不再推薦元素的方式取代直接刪除，這麼一來就不需要在包裝文件中加入新的版本號碼。請見[epub-32] [epubpackages-32] [epubcontentdocs-32] [ocf-32] [epubmediaoverlays-32] [epubchanges-32]。
+
+### B.6 EPUB 3.3: 2022
+
+EPUB 3.3改版於2020到2021進行，這是EPUB 3系列第一個以W3C推薦的方式發行的版本。EPUB 3.3與EPUB 3.2相較，沒有顯著的技術變更，並且強烈向後相容。這意味著所有合規的EPUB 3.2出版品也會是合規的EPUB 3.3出版品。
+
+文件則被重新調整架構。調整架構的主要動機以及在編輯上改版的原因是為了讓文件更易於閱讀。同時，為了要完整通過W3C EPUB 3工作小組所開發的測試檢驗，調整架構也把推薦標準和工作小組紀錄分開（請見文件的細項列表）。在推薦標準中列出的功能需經完整的測試，並且廣受閱讀系統所實作，才能被視為具有互通性。另一方面，工作小組紀錄中所列出的功能，基於製作上的考量，目前依然缺少閱讀系統的支援；結果上這些技術不應該被視為穩定並且具互通性。
+
+[epub-33]的獨立章節提供了對這些變更更為詳細的說明。
+
+
+## C. 索引
+
+### C.1 參考資料定義的術語
+
+[EPUB-33] 定義術語如下:
+
+alternate-script property
+attributes specifying base direction
+core media types
+create synthetic spreads
+EPUB 3.3
+EPUB container
+EPUB content documents
+EPUB content documents
+EPUB navigation document
+EPUB navigation document
+EPUB publications
+EPUB spine
+epub:type attribute
+Expressing structural semantics
+fixed-layout XHTML content documents
+Font Obfuscation
+hidden attribute
+how to position pages
+link element
+Media overlays
+metadata section
+Open Container Format (OFC)
+orientation of pages
+package document
+Package document
+page dimensions
+page-progression-direction
+reading system
+Reflowable layouts
+Scripting
+spine element
+unique identifier
+unique-identifier attribute
+XHTML content document
+
+[EPUB-A11Y-11] 定義術語如下:
+
+EPUB Accessibility 1.1
+
+[EPUB-RS-33] 定義術語如下:
+
+EPUB reading systems 3.3
+
+[HTML] 定義術語如下:
+
+aside element
+audio element
+nav element
+ruby element
+script element
+section element
+video element
+
+## D. 致謝
+
+本章節為非規範性。
+
+規格，就像藝術，就像人類創作。沒有人對EPUB的貢獻多於Garth Conboy，他參與了規格發展的每一步，從最早1999年的OEB 1.0到現在的EPUB 3.3。若沒有Garth的遠見、知識，以及超常的善良本性，這一切都不會成真。我們將EPUB 3.3版貢獻於對他的紀念，Garth，我們永遠欠你一筆。
+
+以下EPUB 3工作小組的成員對本文件的產製有所貢獻：
+
+Will AWAD (Newgen Knowledgeworks)
+Sofia Bautista (Legible Media Inc.)
+Laura Brady (Legible Media Inc.)
+Leah Brochu (National Network for Equitable Library Service)
+Matthew C. Chan (House of Anansi Press)
+Yu-Wei Chang (Taiwan Digital Publishing Forum)
+Fred Chasen (Scribd)
+Juan Corona (Legible Media Inc.)
+Dave Cramer (W3C Invited Expert, chair)
+Romain Deltour (DAISY Consortium)
+Marisa DeMeglio (DAISY Consortium)
+Brady Duga (Google LLC)
+Reinaldo Ferraz (NIC.br - Brazilian Network Information Center)
+John Foliot (W3C Invited Expert)
+Teenya Franklin (Pearson plc)
+Hadrien Gardeur (EDRLab)
+Matt Garrish (DAISY Consortium)
+Jen Goulden (Crawford Technologies)
+Ivan Herman (W3C, staff contact)
+Tetsu Hoshino (Kodansha, Publishers, Ltd.)
+Norikazu Ishizu (Kadokawa Corporation)
+Norihito IYENAGA (Kodansha, Publishers, Ltd.)
+Rick Johnson (VitalSource Technologies)
+Ken Jones (Circular Software)
+Antonio Kamiya (Dentsu Group Inc.)
+Deborah Kaplan (W3C Invited Expert)
+Bill Kasdorf (Book Industry Study Group)
+George Kerscher (DAISY Consortium)
+Kazuhito Kidachi (Mitsue-Links Co., Ltd.)
+Masakazu Kitahara (Voyager Japan, Inc.)
+Toshiaki Koike (Voyager Japan, Inc.)
+Ryo Kuroda (ACCESS CO., LTD.)
+Charles LaPierre (Benetech)
+Dan Lazin (Google LLC)
+Laurent Le Meur (EDRLab)
+Victoria Lee (Apple, Inc.)
+Farrah Little (National Network for Equitable Library Service)
+Victor Lopes (Apple, Inc.)
+Karan Malhotra (Newgen Knowledgeworks)
+Makoto Murata (DAISY Consortium)
+Cristina Mussinelli (Fondazione LIA)
+Yoichiro Nagao (Kodansha, Publishers, Ltd.)
+Theresa O'Connor (Apple, Inc.)
+Yoshinori Ohmura (SHUEISHA Inc.)
+Rachel Osolen (National Network for Equitable Library Service)
+Gregorio Pellegrino (Fondazione LIA)
+Vijaya Gowri Perumal (Newgen Knowledgeworks)
+Wendy Reid (Rakuten Group, Inc., chair)
+John Roque (Apple, Inc.)
+Leonard Rosenthol (Adobe)
+Shinobu Sato (Kadokawa Corporation)
+Ben Schroeter (Pearson plc)
+Daihei Shiohama (MEDIA DO Co., Ltd.)
+Tzviya Siegman (Wiley)
+Avneesh Singh (DAISY Consortium)
+MOTOI SUZUKI (SHUEISHA Inc.)
+Yutaka Suzuki (Kadokawa Corporation)
+Kyrce Swenson (Pearson plc)
+Shinya Takami (Kadokawa Corporation, chair)
+Mateus Teixeira (W. W. Norton & Company)
+Yukio Tomikura (Kodansha, Publishers, Ltd.)
+Aimee Ubbink (Crawford Technologies)
+Daniel Weck (DAISY Consortium)
+Zheng Xu (Gardenia Corp)
+Fuqiao Xue (W3C)
+Evan Yamanishi (W. W. Norton & Company)
+Osamu Yoshiba (Kodansha, Publishers, Ltd.)
+Junichi Yoshii (Kodansha, Publishers, Ltd.)
+Naomi Yoshizawa (W3C)
+Laurence Zaysser (EDRLab)
+
+此外，工作小組要特別感謝EPUB 3規格與總覽的前任編輯：Garth Conboy, Marisa DeMeglio, Elika J. Etemad, Markus Gylling, William McCoy, MURATA Makoto, James Pritchett, Tzviya Siegman, 以及 Daniel Weck。
+
+## E. 參考資料
+
+### E.1 參考性資料
+
+[csssnapshot]
+CSS Snapshot. URL: https://www.w3.org/TR/CSS/
+[ecmascript]
+ECMAScript Language Specification. Ecma International. URL: https://tc39.es/ecma262/multipage/
+[epub-31]
+EPUB 3.1. Markus Gylling; Tzviya Siegman; Matt Garrish. IDPF. 05 January 2017. URL: http://idpf.org/epub/31/spec/epub-spec-20170105.html
+[epub-32]
+EPUB 3.2. Matt Garrish; Dave Cramer. EPUB 3 Community Group. 08 May 2019. URL: https://www.w3.org/publishing/epub32/epub-spec.html
+[epub-33]
+EPUB 3.3. Matt Garrish; Ivan Herman; Dave Cramer. W3C. 3 October 2022. W3C Candidate Recommendation. URL: https://www.w3.org/TR/epub-33/
+[epub-a11y-11]
+EPUB Accessibility 1.1. Matt Garrish; George Kerscher; Charles LaPierre; Gregorio Pellegrino; Avneesh Singh. W3C. 14 September 2022. W3C Candidate Recommendation. URL: https://www.w3.org/TR/epub-a11y-11/
+[epub-a11y-eaa-mapping]
+EPUB Accessibility - EU Accessibility Act Mapping. Cristina Mussinelli; Luc Audrain; Gregorio Pellegrino. W3C. 10 August 2022. W3C Working Group 注意事項. URL: https://www.w3.org/TR/epub-a11y-eaa-mapping/
+[epub-a11y-tech-11]
+EPUB Accessibility Techniques 1.1. Matt Garrish; George Kerscher; Charles LaPierre; Gregorio Pellegrino; Avneesh Singh. W3C. 13 September 2022. W3C Working Group 注意事項. URL: https://www.w3.org/TR/epub-a11y-tech-11/
+[epub-multi-rend-11]
+EPUB 3 Multiple-Rendition Publications 1.1. Matt Garrish. W3C. 10 August 2022. W3C Working Group 注意事項. URL: https://www.w3.org/TR/epub-multi-rend-11/
+[epub-rs-33]
+EPUB Reading Systems 3.3. Matt Garrish; Ivan Herman; Dave Cramer. W3C. 3 October 2022. W3C Candidate Recommendation. URL: https://www.w3.org/TR/epub-rs-33/
+[epub-ssv-11]
+EPUB 3 Structural Semantics Vocabulary 1.1. Ivan Herman; Matt Garrish. W3C. 10 August 2022. W3C Working Group 注意事項. URL: https://www.w3.org/TR/epub-ssv-11/
+[epub-tts-10]
+EPUB 3 Text-to-Speech Enhancements 1.0. Matt Garrish. W3C. 10 August 2022. W3C Working Group 注意事項. URL: https://www.w3.org/TR/epub-tts-10/
+[epubchanges-30]
+EPUB 3 Changes from 2.0.1. William McCoy; Markus Gylling. IDPF. 11 October 2011. URL: http://idpf.org/epub/30/spec/epub30-changes-20111011.html
+[epubchanges-301]
+EPUB 3.0.1 Changes from 3.0. Markus Gylling; Matt Garrish. IDPF. 26 June 2014. URL: http://idpf.org/epub/301/spec/epub-changes-20140626.html
+[epubchanges-31]
+EPUB 3.1 Changes from 3.0.1. Markus Gylling; Matt Garrish. IDPF. 05 January 2017. URL: http://idpf.org/epub/31/spec/epub-changes-20170105.html
+[epubchanges-32]
+EPUB 3.2 Changes. Matt Garrish; Dave Cramer. EPUB 3 Community Group. 08 May 2019. URL: https://www.w3.org/publishing/epub32/epub-changes.html
+[epubcontentdocs-30]
+EPUB Content Documents 3.0. Markus Gylling; William McCoy; Elika J. Etimad; Matt Garrish. IDPF. 11 October 2011. URL: http://idpf.org/epub/30/spec/epub30-contentdocs-20111011.html
+[epubcontentdocs-301]
+EPUB Content Documents 3.0.1. Markus Gylling; William McCoy; Elika J. Etimad; Matt Garrish. IDPF. 26 June 2014. URL: http://idpf.org/epub/301/spec/epub-contentdocs-20140626.html
+[epubcontentdocs-31]
+EPUB Content Documents 3.1. Markus Gylling; William McCoy; Dave Cramer; Elika J. Etimad; Matt Garrish. IDPF. 05 January 2017. URL: http://idpf.org/epub/31/spec/epub-contentdocs-20170105.html
+[epubcontentdocs-32]
+EPUB Content Documents 3.2. Dave Cramer; Matt Garrish. EPUB 3 Community Group. 08 May 2019. URL: https://www.w3.org/publishing/epub32/epub-contentdocs.html
+[epubmediaoverlays-30]
+EPUB Media Overlays 3.0. Marisa DeMeglio; Daniel Weck. IDPF. 11 October 2011. URL: http://idpf.org/epub/30/spec/epub30-mediaoverlays-20111011.html
+[epubmediaoverlays-301]
+EPUB Media Overlays 3.0.1. Marisa DeMeglio; Daniel Weck. IDPF. 26 June 2014. URL: http://idpf.org/epub/301/spec/epub-mediaoverlays-20140626.html
+[epubmediaoverlays-31]
+EPUB Media Overlays 3.1. Marisa DeMeglio; Daniel Weck. IDPF. 05 January 2017. URL: http://idpf.org/epub/31/spec/epub-mediaoverlays-20170105.html
+[epubmediaoverlays-32]
+EPUB Media Overlays 3.2. Marisa DeMeglio; Daniel Weck. EPUB 3 Community Group. 08 May 2019. URL: https://www.w3.org/publishing/epub32/epub-mediaoverlays.html
+[epubpackages-31]
+EPUB Packages 3.1. Markus Gylling; William McCoy; Matt Garrish. IDPF. 05 January 2017. URL: http://idpf.org/epub/31/spec/epub-packages-20170105.html
+[epubpackages-32]
+EPUB Packages 3.2. Matt Garrish; Dave Cramer. EPUB 3 Community Group. 08 May 2019. URL: https://www.w3.org/publishing/epub32/epub-packages.html
+[epubpublications-30]
+EPUB Publications 3.0. Markus Gylling; William McCoy; Matt Garrish. IDPF. 11 October 2011. URL: http://idpf.org/epub/30/spec/epub30-publications-20111011.html
+[epubpublications-301]
+EPUB Publications 3.0.1. Markus Gylling; William McCoy; Matt Garrish. IDPF. 26 June 2014. URL: http://idpf.org/epub/301/spec/epub-publications-20140626.html
+[html]
+HTML Standard. Anne van Kesteren; Domenic Denicola; Ian Hickson; Philip Jägenstedt; Simon Pieters. WHATWG. Living Standard. URL: https://html.spec.whatwg.org/multipage/
+[json-ld]
+JSON-LD 1.0. Manu Sporny; Gregg Kellogg; Markus Lanthaler. W3C. 3 November 2020. W3C Recommendation. URL: https://www.w3.org/TR/json-ld/
+[microdata]
+HTML Microdata. Chaals Nevile; Dan Brickley; Ian Hickson. W3C. 28 January 2021. W3C Working Group 注意事項. URL: https://www.w3.org/TR/microdata/
+[ocf-201]
+EPUB Open Container Format (OCF) 2.0.1. IDPF. 04 September 2010. URL: http://idpf.org/epub/20/spec/OCF_2.0.1_draft.doc
+[ocf-30]
+EPUB Open Container Format (OCF) 3.0. James Pritchett; Markus Gylling. IDPF. 11 October 2011. URL: http://idpf.org/epub/30/spec/epub30-ocf-20111011.html
+[ocf-301]
+EPUB Open Container Format (OCF) 3.0.1. James Pritchett; Markus Gylling. IDPF. 26 June 2014. URL: http://idpf.org/epub/301/spec/epub-ocf-20140626.html
+[ocf-31]
+Open Container Format (OCF) 3.1. James Pritchett; Markus Gylling. IDPF. 05 January 2017. URL: http://idpf.org/epub/31/spec/epub-ocf-20170105.html
+[ocf-32]
+Open Container Format (OCF) 3.2. Garth Conboy. EPUB 3 Community Group. 08 May 2019. URL: https://www.w3.org/publishing/epub32/epub-ocf.html
+[opentype]
+OpenType specification. Microsoft. URL: http://www.microsoft.com/typography/otspec/default.htm
+[opf-201]
+Open Packaging Format 2.0.1. IDPF. 04 September 2010. URL: http://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm
+[ops-201]
+Open Publication Structure 2.0.1. IDPF. 04 September 2010. URL: http://idpf.org/epub/20/spec/OPS_2.0.1_draft.htm
+[rdfa-in-html]
+HTML+RDFa 1.1 - Second Edition. Manu Sporny. W3C. 17 March 2015. W3C Recommendation. URL: https://www.w3.org/TR/html-rdfa/
+[svg]
+SVG. W3C. URL: https://www.w3.org/TR/SVG/
+[unicode]
+The Unicode Standard. Unicode Consortium. URL: https://www.unicode.org/versions/latest/
+[wcag21]
+Web Content Accessibility Guidelines (WCAG) 2.1. Andrew Kirkpatrick; Joshue O'Connor; Alastair Campbell; Michael Cooper. W3C. 5 June 2018. W3C Recommendation. URL: https://www.w3.org/TR/WCAG21/
+[woff]
+WOFF File Format 1.0. Jonathan Kew; Tal Leming; Erik van Blokland. W3C. 13 December 2012. W3C Recommendation. URL: https://www.w3.org/TR/WOFF/
+[woff2]
+WOFF File Format 2.0. Vladimir Levantovsky; Raph Levien. W3C. 10 March 2022. W3C Recommendation. URL: https://www.w3.org/TR/WOFF2/
