@@ -17,7 +17,7 @@ EPUB 3.3版本為第一次由W3C工作小組循W3C推薦流程（W3C Recommendat
 - ### EPUB 3.3 閱讀系統（原文：[EPUB 3.3 Reading Systems](https://w3c.github.io/epub-specs/epub33/rs/)）
 - [ ] 翻譯
 - [ ] HTML
-- ### EPUB多內容釋義出版品 1.1 （原文：[EPUB Multipule-Rendition Publication 1.1](https://w3c.github.io/epub-specs/epub33/multi-rend/)）
+- ### EPUB多重內容釋義出版品 1.1 （原文：[EPUB Multipule-Rendition Publication 1.1](https://w3c.github.io/epub-specs/epub33/multi-rend/)）
 - [ ] 翻譯
 - [ ] HTML
 - ### EPUB文字轉換語音增強機制 1.1 （原文：[EPUB Text-to-Speech Enhancements 1.0](https://www.w3.org/TR/epub-tts-10/)）
