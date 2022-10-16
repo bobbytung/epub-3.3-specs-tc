@@ -86,7 +86,7 @@ EPUB多重內容釋義（Rendition）出版品定義如何製作與處理由一�
 5.4.1 XHTML內容文件：限制
 5.4.2 nav元素：變更與限制
 5.4.3 內容釋義映射
-5.4.4 識別容器
+5.4.4 在容器中識別
 5.5 處理模型
 A. 綱要
 A.1 Metadata.xml綱要
@@ -126,73 +126,75 @@ D.2 參考性文件
 
 在EPUB出版品中包含多重內容釋義的概念從EPUB規格誕生就已經存在，但是規格卻從來沒有完整地說明這些內容釋義是為了什麼而存在，以及如何進行存取。結果使得EPUB 3規格等於僅具備單一內容的EPUB出版品。而且多數的EPUB製作者以及閱讀系統開發者都認為EPUB出版品僅有單一包裝文件，位置在container.xml檔案[epub-33]的第一個rootfile元素中。
 
+然而在實踐上，container.xml檔案並不限制EPUB製作者只能列出一個內容文件。舉個例子，在EPUB 2中，EPUB製作者可以添加額外的rootfile元素用來參照其他想要的格式（比如，另外一個包裝文件、一份PDF檔案，甚至是一份Word文件）。在EPUB 3中，rootfile元素限制僅能用於參照符合相同版本標準的包裝文件。
 
-In practice, however, the container.xml file does not restrict EPUB creators to listing only a single package document. In EPUB 2, for example, EPUB creators could add additional rootfile elements referencing any other format they desired (e.g., another package document, a PDF file, or even a Word Document). In EPUB 3, rootfile elements were restricted to referencing only package documents of the same version of the standard.
+本規格將進一步允許多重內容釋義能定義更完整的框架，來識別並且在其中進行選擇。每一份在rootfile元素中參照的內容文件都定義了EPUB出版品中的一個內容釋義，而第一份內容文件代表為預設的內容釋義（也就是說，所有閱讀系統都必須處理的那一份）。
 
-This specification moves beyond merely allowing multiple renderings to define a more complete framework for identifying and selecting from among them. Each package document referenced from a rootfile element is defined to be one rendition of the EPUB publication, with the first package document representing the default rendition (i.e., the one that all reading systems have to process).
-
-Although this model is intended to work as seamlessly as possible with existing the EPUB ecosystem, the authoring of multiple renditions requires some compromises to maintain compatibility (e.g., some duplication of metadata will be necessary for reading systems that do not handle multiple renditions).
+儘管此模型預期能夠盡可能無縫地在既存的EPUB生態體系運作，但製作多重內容釋義需要為了維持相容性而做出一些妥協（例如，對於無法處理多重內容釋義的閱讀系統而言，可能會需要一些重複的後設資料）。
 
 ## 1.3 與EPUB 3的關係
 
+在本規格中定義在一個EPUB容器中包含多重內容釋義的方法，並非所有的EPUB出版品都有需求。在一份容器中也可能有多重內容釋義，但與本規格沒有緊密關連，主要是因為在本規格之前，就能夠建立多重內容釋義的容器了。
 
-The method defined in this specification for including multiple renditions within an EPUB container is not required for all EPUB publications. Multiple renditions MAY be included in a container without adhering to this specification, as the ability to create multiple-rendition containers pre-dates this specification.
+所以，我們強烈推薦未來所有在容器中加入多重內容釋義的需求，都該遵從本規格。既有的實作若運用了其他的方法在多重內容釋義中進行選擇，也鼓勵考慮改用本規格，來增進整體對多重內容釋義出版品的互通性。
 
-It is strongly RECOMMENDED, however, that all future needs for multiple renditions in a container follow this specification. Existing implementations that utilize other methods for selecting from multiple renditions are also encouraged to consider migrating to use this specification to improve the overall interoperability of multiple-rendition publications.
+許多在本規格中定義的內容釋義選擇屬性，和包裝文件元素以及特性[epub-33]共用名稱，但在設計上是為了反映用於選擇目的的資訊。
 
-Some of the rendition selection attributes defined in this specification share common names with package document elements and properties [epub-33] as they are designed to reflect that information for selection purposes.
+儘管有此相同性，本規格並不強制讓位於rootfile元素[epub-33]中的內容釋義選擇特性與對應內容文件所對應的後設資料彼此對等，並非隨時都能做到直接的對等。
 
-Despite this commonality, this specification does not enforce equivalence between the rendition selection properties expressed on a rootfile element [epub-33] and the metadata expressed in the corresponding package document, as direct equivalence is not always possible.
+例如，一份多種語文的EPUB出版品會定義多於一個的dc:language元素[epub-33]——每種語言各一——但在內容釋義選擇上只能定義一個主要語言。同樣的，定義在包裝文件上的語言可以包含一個指定的區域代碼，但供選擇用途的話，EPUB製作者只能提供語言代碼作為識別。
 
-For example, a multilingual EPUB publication will define more than one dc:language element [epub-33] — one for each language — but for rendition selection only the primary language is defined. Likewise, the language defined in the package document could include a specific region code, but for selection purposes the EPUB creator might identify only the language code.
+在兩處提供共通後設資料的原因是為了簡化選擇程序：提供屬性是為了避免要處理所有參照的包裝文件，同時在包裝層級上不可能允許表述最重要的資訊。這也避免用於不同目的（「選擇使用」對「處理用途」）的後設資料產生對立或者產生歧義。
 
-The reason for common metadata in both locations is to simplify the selection process: including attributes avoids the requirement to parse each referenced package document and allows for expressions of primacy that are not possible at the package level. It also avoids collisions and ambiguities between metadata being used for different purposes (selection versus rendering).
+定義在container.xml檔案[epub-33]中的選擇特性不會附加任何處理行為。舉個例子，在rendition:layout屬性中指出內容釋義為固定版面，並不會在指定的內容釋義中啟動固定版面的處理行為。
 
-The selection properties defined in the container.xml file [epub-33] have no rendering behaviors attached to them, either. For example, indicating that a rendition is fixed layout in the rendition:layout attribute does not trigger fixed layout rendering behaviors within the specified rendition.
-
-A reading system renders a rendition according to the metadata expressed in the package document only.
+閱讀系統在處理內容釋義時，僅需根據在包裝文件中表述的後設資料。
 
 ## 1.4 術語
 
+本規格使用定義在EPUB 3[epub-33]中的術語。
 
-This specification uses terminology defined in EPUB 3 [epub-33].
+另外定義了以下術語：
 
-It also defines the following terms:
+### 容器文件
 
-container document
-The container.xml file located in the child META-INF directory of the EPUB container root directory [epub-33]. Each rendition in the container is identified by a rootfile element [epub-33].
+位於EPUB容器根目錄[epub-33]的子META-INF資料夾中的container.xml檔案。在容器中的每一份內容釋義都由一個rootfile元素[epub-33]來作為識別。
 
-default rendition
-The rendition listed in the first rootfile element in the container.xml file [epub-33].
+### 預設內容釋義
 
-multiple-rendition publication
-An EPUB publication that consists of two or more renditions of the content.
+在container.xml檔案[epub-33]中，第一個rootfile元素所列出的內容釋義。
 
-rendition
-One rendering of the content of an EPUB publication, as expressed by a package document.
+### 多重內容釋義出版品
 
-rendition mapping document
-A specialization of the XHTML content document, containing machine-readable mappings between equivalent content in different renditions, conforming to the constraints expressed in rendition mapping.
+一本包含兩個以上內容釋義內容的EPUB出版品。
 
-NOTE
-Only the first instance of a term in a section links to its definition.
+### 內容釋義
+
+對一本EPUB出版品內容，按照內容文件中表述進行的一項處理。
+
+### 內容釋義映射文件
+
+一份特化的XHTML內容文件，其中包含了機器可讀取的映射資料用以對照不同內容釋義的對等內容，其合乎內容釋義映射中所表述的限制。
+
+###### 注意事項
+
+每一章節中只有術語第一次出現時會連結到其定義。
 
 ## 1.5 適用性
 
+本規格中被標註為非規範性的章節，以及所有製作準則、圖表、範例以及注意事項都為非規範性。本規格其他部分皆為規範性。
 
-As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.
-
-The key words MAY, MUST, MUST NOT, OPTIONAL, RECOMMENDED, and SHOULD in this document are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.
+關鍵字：可以（MAY）、必須（MUST）、不得（MUST NOT）、選擇性（OPTIONAL）、推薦（RECOMMENDED），以及應該（SHOULD)在本文件中僅有已如上方式以粗體出現時，須按照BCP 14 [RFC2119] [RFC8174]中的敘述詮釋。
 
 # 2. 指定多重內容釋義
 
+EPUB出版品中的每一份內容釋義都必須符合EPUB出版品[epub-33]中的需求。
 
-Each rendition of an EPUB publication MUST meet the requirements for EPUB publications [epub-33].
+每一份內容釋義的包裝文件必須列於container.xml檔案[epub-33]，列於第一個的包裝文件代表為預設的內容釋義。
 
-The package document for each rendition MUST be listed in the container.xml file [epub-33], where the first package document listed represents the default rendition.
+###### 範例 1
 
-EXAMPLE 1
-The following example shows SVG and XHTML renditions bundled in the same container:
+以下範例呈現在同一個容器中提供SVG與XHTML內容釋義的組合：
 
 <?xml version="1.0"?>
 <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
@@ -203,12 +205,14 @@ The following example shows SVG and XHTML renditions bundled in the same contain
             media-type="application/oebps-package+xml" />
     </rootfiles>
 </container>
-Each rendition of the EPUB publication SHOULD only list the publication resources necessary for its rendering in its package document manifest [epub-33]. renditions MAY reference the same publication resources.
 
-NOTE
-Renditions may not be able to access resources stored in sibling directories on all reading systems (i.e., some reading systems do not provide access outside the directory a rendition's package document is stored in).
+EPUB出版品中的每一份內容釋義都應該僅在其包裝文件的宣告[epub-33]中列舉處理使用為必要的出版品資源。不同的內容釋義可以參照相同的出版品資源。
 
-For example, given the following directory structure (all resources except the package documents omitted for clarity):
+###### 注意事項
+
+並非所有的閱讀系統都能讓內容釋義存取儲存在鄰接資料夾中的資源（也就是，有些閱讀系統不會給予內容釋義的包裝文件所儲存的資料夾以外的存取權限）。
+
+例如以下目錄結構（為了簡潔起見，除了包裝文件以外的所有資源都被省略）：
 
 /META-INF
 /Rendition1
@@ -216,11 +220,12 @@ For example, given the following directory structure (all resources except the p
 /Rendition2
    - rendition2.opf
 /Shared
-Resources in the "Rendition1" directory may not be able to access resources in either "Rendition2" or "Shared".
 
-To share resources between renditions, it is recommended that the package documents be located in a common directory and the resources for each rendition stored in separate subdirectories.
+在「Rendition1」資料夾中的資源，可能無法存取位於「Rendition2」或「Shared」中的資源。
 
-Restructuring the previous example as follows would allow shared access to all resources:
+若要在不同內容釋義間共享資源，建議將包裝文件都置放在同一個資料夾中，並且把不同內容釋義的資源存放在個別的子資料夾中。
+
+將上面範例重構如下，即可存取所有共享的資源：
 
 /META-INF
 /EPUB
@@ -234,104 +239,115 @@ Restructuring the previous example as follows would allow shared access to all r
 
 ## 3.1 內容釋義後設資料
 
-Metadata expressed at the rendition level MAY change from instance to instance. For example, renditions in different languages will have different primary languages and language-specific metadata such as titles will be expressed differently. Similarly, bundled fixed-layout and reflowable renditions will express different rendering metadata.
+在內容釋義層級表述的後設資料，可能因案例而有不同。例如，用於區分語言的內容釋義可能有著不同的主要語言以及特定語言的後設資料，如標題，會分別表述。同樣的，將固定版面以及可重排內容釋義放在一起，其排版後設資料表述也會不同。
 
 ## 3.2 出版品後設資料
 
 ### 3.2.1 metadata.xml檔案
 
-To ensure consistency of metadata at the Publication and rendition levels, this specification defines the content model of the root metadata element in the metadata.xml file [epub-33] to be the same as the package document metadata element [epub-33], with the following differences in syntax and semantics:
+為了確保在出版品以及內容釋義等級的後設資料維持恆定，本規格定義了在metadata.xml檔案[epub-33]中根metadata元素的內容模型，和包裝文件中的metadata元素[epub-33]相同，但以下語法和語意有所不同：
 
-A dc:identifier element [dcterms] MUST contain the unique identifier [epub-33] for the EPUB publication.
-A meta element [epub-33] MUST contain the last modified date, expressed using the dcterms:modified property [dcterms]. The value of the property MUST conform to the pattern and rules defined in Last modified date [epub-33]. Only one dcterms:modified property without a refines attribute [epub-33] is allowed.
-All other metadata is OPTIONAL.
-The obsolete OPF2 meta element [epub-33] is not allowed.
-The meta and link elements are defined in the same namespace as the metadata root element: http://www.idpf.org/2013/metadata
-In order to enable the full expression of metadata in the metadata.xml file, all attributes allowed on the package element [epub-33] are allowed on the root metadata element.
-NOTE
-The content of this file is also defined informally through an XML schema. See A.1 Metadata.xml Schema for further details.
+- 一個dc:identifier元素[dcterms]必須包含唯一識別碼[epub-33]供EPUB出版品使用。
 
-This specification does not define a model for the inheritance of metadata from the Publication level to the rendition level, as EPUB processing only requires that the default rendition be recognized by reading systems (i.e., reliance on inheritance could result in reading systems not locating necessary metadata).
+- 一個meta元素[epub-33]必須包含最後修改日期，使用dcterms:modified特性進行表述[dcterms]。該特性的值必須合乎[epub-33]所定義最後修改日期的模式與規則。僅允許一個dcterms:modified特性得以不搭配refines屬性[epub-33]出現。
 
-NOTE
-EPUB creators are strongly encouraged to include a complete set of Publication metadata in the default rendition to ensure cross-compatibility, even when making use of this file.
+- 所有其他的詮釋資料都為選擇性。
 
-Titles, languages and other metadata is often not applicable from one rendition to another, further complicating the sharing of metadata. No assumption can be made that metadata in the metadata.xml file is applicable to any given rendition, whether the metadata is expressed in the rendition or not.
+- 不允許使用過時的OPF2 meta元素[epub-33]。
 
-NOTE
-As [epub-33] does not define a content model for the metadata.xml file, EPUB publications that do not conform to this specification can include different metadata. EPUB publications that are not valid to the content model restrictions in this section are not valid multiple-rendition publications as defined by this specification, but might still be valid EPUB 3 publications.
+- meta與link元素和metadata跟元素一樣定義在相同的命名空間：http://www.idpf.org/2013/metadata
 
-EPUB creators are strongly encouraged to migrate to the content model defined in this specification, even if not producing multiple-rendition publications, to ensure consistent processing.
+- 為了讓位於metadata.xml檔案中的後設資料全部都能用於表述，所有允許在package元素[epub-33]中使用的屬性，都允許用於根metadata元素。
+
+###### 注意事項
+
+本檔案中的內容也非正式地透過一個XML剛要進行定義，請見A.1 Metadata.xml綱要也獲得更多細節。
+
+本規格不定義一個模型，讓後設資料可以從出版品層級繼承到內容釋義層級，EPUB處理上僅要求預設的內容釋義能被閱讀系統所辨識（換句話說，依靠繼承的話，可能會讓閱讀系統無法掌握必要的後設資料）。
+
+###### 注意事項
+
+強烈建議EPUB製作者在預設內容釋義中包含完整出版品後設資料，以確保在使用該檔案時的相容性。
+
+書名、語言以及其他後設資料通常在跨內容釋義時不能適用，這使得共享後設資料變得更未複雜。無論內容釋義是否有對後設資料進行表述，都不能假設在metadata.xml檔案中的後設資料能夠套用到所有的內容釋義上。
+
+###### 注意事項
+
+由於[epub-33]並未定義供metadata.xml檔案使用的內容模型，不合乎本規格的EPUB出版品可以包含不同的後設資料。EPUB出版品若違反本章節的內容模型限制，就並非本規格所定義的多重內容釋義出版品，但還是可以為合規的EPUB 3出版品。
+
+強烈建議EPUB製作者，儘管不是為了產製多重內容釋義出版品，也該改使用本規格定義的內容模型，以確保處理上的穩定。
 
 #### 3.2.1.1 資源模糊化
 
-The resource obfuscation algorithm [epub-33] depends on creating an obfuscation key [epub-33] from the unique identifier for the EPUB publication.
+資源模糊化演算法[epub-33]仰賴由該EPUB出版品之唯一識別碼產生的模糊化密鑰[epub-33]。
 
-For compatibility reasons, and due to the complexities of being able to share resources across renditions, this specification does not change this requirement but applies it to all obfuscated resources in the EPUB container.
+為了相容性原因，以及為了跨內容釋義分享資源的複雜性，本規格不改變此項需求，但將其套用到所有位於EPUB容器中的模糊化資源。
 
-Consequently, EPUB creators MUST use the unique identifier of the default rendition as the obfuscation key for all resources in a multiple-rendition publication.
+結果而論，EPUB製作者必須使用預設內容釋義的唯一識別碼作為模糊化密鑰，供所有多重內容釋義出版品中的所有資源使用。
 
-Similarly, reading systems MUST use this unique identifier of the default rendition to de-obfuscate all resources in a multiple-rendition publication.
+同樣的，閱讀系統必須使用預設內容釋義的唯一識別碼來為多重內容釋義出版品中的所有資源進行去模糊化。
 
 ### 3.2.2 用語關聯機制
 
+本規格繼承了定義在[epub-33]中的用語關聯機制，其與包裝文件的後設資料相關，僅有以下差異：prefix屬性可能僅能添加在根metadata元素上。
 
-This specification inherits the mechanisms for associating vocabularies defined in Vocabulary Association Mechanisms [epub-33] as they relate to the package document metadata, with only the following modification: the prefix attribute MAY be attached only to the root metadata element.
-
-Reserved prefixes [epub-33] for metadata attribute expressions are adopted without change.
+供後設資料屬性表述而保留的字首[epub-33]皆可無變更地採用。
 
 # 4. 選擇內容釋義
 
 ## 4.1 導論
 
-Although each EPUB publication represents a single work, it is possible to optimize the rendering of that work in any number of different ways. An issue of a magazine, for example, could include a fixed layout version (print replica) for rendering on tablet-sized screens with a reflowable version for smaller cellphone screens where the fixed layout would be scaled to illegibility (or automatically reflowed in unwanted ways if fixed layouts are not supported).
+儘管每一份EPUB出版品代表單一作品，但也可能以不同複數不同的方法來處理該作品。例如一期雜誌，可能包含著固定版面版本（印刷版複製品）用來針對平板尺寸螢幕進行處理，也會包含一份可重排版本供較小的手機螢幕使用，原因是在手機螢幕上固定版面會被縮到難以閱讀（或者在不支援固定版面時，自動切換成非預期的重排）。
 
-The EPUB container allows multiple renditions of the content to be included in an EPUB publication, but does not specify how reading systems are to determine the unique properties of the renditions listed in the container document, or select between them.
+EPUB容器能讓一本EPUB出版品包含內容的多重內容釋義，但卻無法指定閱讀系統如何透過列於容器文件中各內容釋義具備的獨特特性來進行判斷，或者在之間進行選擇。
 
-This section redresses this problem by defining both a set of rendition selection attributes that can be attached to rootfile elements [epub-33] in the container document and a processing model that allows EPUB creators to specify which rendition is the best representation depending on various conditions. Reading systems can then select the appropriate representation from the list of renditions to match the current configuration and user preferences.
+本章節試著補救這問題，透過兩項定義，一是一組能夠添加在容器文件中rootfile元素[epub-33]上的內容釋義選擇屬性；另一是一套處理模型，能讓EPUB製作者在不同的狀況下指定哪一個內容釋義能提供最佳的呈現。
+
+閱讀系統能以此從內容釋義表列中選擇最合適的呈現，以符合當下的硬體配置以及使用者偏好。
 
 ## 4.2 內容適用性
 
+一份容器文件：
 
-A container document:
+- 必須符合[epub-33]中容器 – META-INF/container.xml一節對container.xml的定義以及需求。
 
-MUST be valid to the definition and requirements for the container.xml file specified in container – META-INF/container.xml [epub-33].
-MAY include any of the selection attributes defined in Rendition selection attributes.
-MAY Include selection attributes on the rootfile element [epub-33] for the default rendition
-SHOULD include at least one selection attribute ‒ in addition to the OPTIONAL label ‒ on each subsequent rootfile element.
+- 可能包含任何定義在內容釋義選擇屬性一節中的選擇用屬性。
+
+- 可能包含[epub-33]中rootfile元素中供預設內容釋義使用的選擇用屬性。
+
+- 第二個以後的每一個rootfile元素都應該在選擇性標籤之外，包含至少一個選擇用屬性。
 
 ## 4.3 閱讀系統適用性
 
-
-An EPUB reading system SHOULD determine the rendition to present to a user as defined in 4.5 Processing model.
+EPUB閱讀系統應該以定義在4.5處理模型的方式來判斷應該對使用者呈現哪一個內容釋義。
 
 ## 4.4 供選擇內容釋義用的屬性
 
+###### 注意事項
 
-NOTE
-The use of the rendition selection attributes in the container.xml file [epub-33] is also defined informally through an XML schema. See A.2 Container.xml schema for further details.
+在container.xml檔案[epub-33]中使用內容釋義選擇屬性，也非正式地透過一份XML綱要進行定義。請見A.2 Container.xml綱要以獲得更多細節。
 
 ### 4.4.1 rendition:media屬性
 
+rendition:media用於識別閱讀系統的媒體功能，以判斷該內容釋義是否最適宜做為處理對象。
 
-The rendition:media attribute identifies the media features of a reading system the given rendition is best suitable for rendering on.
-
-Attribute Name
+### 屬性名稱
 media
 
-Namespace
+### 命名空間
 http://www.idpf.org/2013/rendition
 
-Usage
-MAY be specified on container document rootfile elements [epub-33].
+### 用法
+可以用於容器文件的rootfile元素[epub-33].
 
-Value
-A CSS 3 media query [mediaqueries], where the media type, if specified, MUST only be the value "all".
+### 值
+為一個CSS 3媒體查詢（media query） [mediaqueries]，必須只能在其值為"all"的狀況下，選擇該媒體類型。
 
-As per [mediaqueries], the media query in this attribute MUST evaluate to true in order for the given rendition to be selected for rendering. Media queries that evaluate to "not all” per 3.1 Error Handling [mediaqueries] SHOULD be treated as false for the purposes of rendition selection (i.e., the given rendition is not a valid match).
+如[mediaqueries]所述，在本屬性中的媒體查詢必須判斷為真，才能讓該內容釋義被選擇來進行處理。若媒體查詢如[mediaqueries]3.1錯誤處理章節，被判斷為"not all”時，應該被當作為假，供內容釋義選擇目的使用（也就是說該內容釋義並不合規而不適合）。
 
-EXAMPLE 2
-The following example shows two renditions of The Sandman bundled in the same container, one optimized for screens 1920 pixels or wider. The default rendition will be used for screen sizes smaller than 1920 pixels by default.
+###### 範例 2
+
+以下範例呈現在同一個容器中同捆的兩份The Sandman之內容釋義，一份對寬度超過1920像素的螢幕進行最佳化。在螢幕尺寸小於1920像素時，將會使用預設的內容釋義。
 
 <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
            xmlns:rendition="http://www.idpf.org/2013/rendition"
@@ -347,27 +363,27 @@ The following example shows two renditions of The Sandman bundled in the same co
 
 ### 4.4.2 rendition:layout屬性
 
+rendition:layout屬性指示該內容釋義為可重排或者預先分頁（固定版面）。
 
-The rendition:layout attribute indicates whether the given rendition is reflowable or pre-paginated.
-
-Attribute Name
+### 屬性名稱
 layout
 
-Namespace
+### 命名空間
 http://www.idpf.org/2013/rendition
 
-Usage
-MAY be specified on container document rootfile elements [epub-33].
+### 用法
+可以用於容器文件的rootfile元素[epub-33].
 
-Value
-The value of the attribute MUST be reflowable or pre-paginated.
+### 值
+本屬性的值必須為reflowable或pre-paginated.
 
-When specified, the value of this attribute MUST match the global rendition:layout setting [epub-33] for the referenced rendition.
+當指定時，本屬性的值必須符合參照內容釋義的全域rendition:layout設定[epub-33]
 
-If a user layout preference is defined in the reading system, the attribute evaluates to true if the preference matches the specified value, otherwise it evaluates to false. If no user preference is defined, the reading system SHOULD ignore the attribute when selecting from the available renditions.
+如果在閱讀系統中有著使用者版面偏好定義，當偏好符合該指定的值時，該屬性評量為真，否則該評量為假。如果沒有定義使用者偏好，閱讀系統在選擇可用的內容釋義時，應該忽略這項屬性。
 
-EXAMPLE 3
-The following example shows two renditions of a magazine bundled in the same container. Note that it is not necessary to state that the default rendition is reflowable, since renditions are reflowable by default.
+###### 範例 3
+
+以下範例呈現在同一個容器中同一本雜誌同捆的兩份內容釋義。請注意，不需要描述預設內容釋義為可重排，主要因為內容釋義預設為可重排。
 
 <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
            xmlns:rendition="http://www.idpf.org/2013/rendition"
@@ -383,27 +399,27 @@ The following example shows two renditions of a magazine bundled in the same con
 
 ### 4.4.3 rendition:language屬性
 
+rendition:language屬性指示該內容釋義為指定的語言最佳化。
 
-The rendition:language attribute indicates that the given rendition is optimized for the specified language.
-
-Attribute Name
+### 屬性名稱
 language
 
-Namespace
+### 命名空間
 http://www.idpf.org/2013/rendition
 
-Usage
-MAY be specified on container document rootfile elements [epub-33].
+### 用法
+可以用於容器文件的rootfile元素[epub-33].
 
-Value
-MUST contain a valid language code conforming to [rfc5646].
+### 值
+必須包含合乎[rfc5646]的有效語言代碼。
 
-The rendition:language attribute more precisely identifies the primary language of a rendition than does the inclusion of dc:language elements in the rendition's package document, as the presence of dc:language elements only indicates that the specified languages are prominently used in the prose.
+rendition:language更加精確地用於識別該內容釋義的主要語言，更勝於在內容釋義的包裝文件中包含dc:language元素，因為dc:language元素主要指示指定的語言在該作品內容中受到顯著地使用。
 
-If a user language preference is defined in the reading system, the attribute evaluates to true if the preference matches the specified value, otherwise it evaluates to false. Several matching schemes are defined in Section 3 of [rfc4647]. Reading systems can use the most appropriate matching scheme. If no user preference is defined, the reading system SHOULD ignore the attribute when selecting from the available renditions.
+如果在閱讀系統中有著使用者語言偏好定義，當偏好符合該指定的值時，該屬性評量為真，否則該評量為假。在[rfc4647]的第三章中定義了許多比對綱要。閱讀系統可以運用最合適的比對綱要。如果沒有定義使用者偏好，閱讀系統在選擇可用的內容釋義時，應該忽略這項屬性。
 
-EXAMPLE 4
-The following example shows a multilingual EPUB publication, with English, French and Spanish renditions of the content.
+###### 範例 4
+
+以下範例呈現一份多語系EPUB出版品，包含內容的英文、法文、西班牙文版內容釋義。
 
 <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
            xmlns:rendition="http://www.idpf.org/2013/rendition"
@@ -423,33 +439,33 @@ The following example shows a multilingual EPUB publication, with English, Frenc
 
 ### 4.4.4 rendition:accessMode屬性
 
+rendition:language屬性指示該內容釋義以何種方式傳達其知識內容，其基於 [iso24751-3]的"Access Mode"特性。
 
-The rendition:accessMode attribute identifies the way in which intellectual content is communicated in a rendition, and is based on the [iso24751-3] "Access Mode" property.
-
-Attribute Name
+### 屬性名稱
 accessMode
 
-Namespace
+### 命名空間
 http://www.idpf.org/2013/rendition
 
-Usage
-MAY be specified on container document rootfile elements [epub-33].
+### 用法
+可以用於容器文件的rootfile元素[epub-33].
 
-Value
-MUST be one or more of the values: auditory, tactile, textual or visual
+### 值
+必須為一或多個以下的值：auditory、tactile、textual或visual
 
-The rendition:accessMode attribute defines the primary access mode(s) for a given rendition. For example, although a textual work may include images, audio and video, its primary means of conveying information is the text. Likewise, a visual work might include alternative text and/or descriptions, but these adaptations are not listed as a textual mode for the rendition for the purpose of selection.
+rendition:accessMode屬性定義了該內容釋義主要的存取模式（不只一種）。例如，儘管一份文字作品可能包含圖片、聲音以及影片，其主要用於傳達資訊的手段為文字。同樣的，一份圖像作品可能包含替代文字以及/或有描述文字，但這些內容並不須在該內容釋義中列為textual模式來供選擇用途使用。
 
-The way in which information is encoded also needs to be considered when designating an access mode. If a work has text components, or is completely textual in nature, but that content is burned into an image format, the access mode is visual (e.g., character dialogue in a JPEG page of a comic or a scan of a document).
+資訊以何種方式編碼，在指定存取模式時也需要進行考量。若一份作品具備文字元件，或者性質上全部都為文字，但內容卻被全部做成圖像格式呈現，該存取模式為visual（例如漫畫中的JPEG頁面裡包含角色對話，或者一份文件的掃瞄版）。
 
-A rendition MAY include more than one primary access mode. For example, the textual version might also embed the auditory version using media overlays. In such cases, the attribute should list each primary access mode that is available.
+內容釋義可以包含多於一個的存取模式。例如，文字版本可能使用媒體覆蓋嵌入有聲版本。在這樣的案例中，該屬性應該將所有可用的主要存取模式列出。
 
-If a user access mode preference is defined in the reading system, the attribute evaluates to true if that preference matches any of the access modes defined in it, otherwise it evaluates to false. If no user preference is defined, the reading system SHOULD ignore the attribute when selecting from the available renditions.
+如果在閱讀系統中有著使用者存取模式偏好定義，當偏好符合該指定的值時，該屬性評量為真，否則該評量為假。如果沒有定義使用者偏好，閱讀系統在選擇可用的內容釋義時，應該忽略這項屬性。
 
-The rendition:label attribute can be use to inform users about the nature of the content, particularly where such information is not available, or not yet standardized, for selection. For example, a tactile rendition could indicate the braille code and grade in its label, or a textual rendition could be marked as optimized for text-to-speech rendering, not general use.
+rendition:label屬性可以用來告知使用者該內容的本質，尤其在這樣的資訊無法取得，或者尚未標準化的狀況下供選擇使用。例如，tactile（觸覺）內容釋義可以透過其標籤指出盲文代碼以及等級，或者textual（文字）內容釋義可以標註其最佳化供文字轉換語音處理使用，而非一般性用途。
 
-EXAMPLE 5
-The following example shows an EPUB publication with an image-based rendition and a text-based serialization available.
+
+###### 範例 5
+以下範例呈現一本EPUB出版品中有著基於圖像的內容釋義，並且也有基於文字的序列可以使用。
 
 <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
            xmlns:rendition="http://www.idpf.org/2013/rendition"
@@ -466,26 +482,26 @@ The following example shows an EPUB publication with an image-based rendition an
 
 ### 4.4.5 rendition:label屬性
 
-The rendition:label attribute allows each rootfile element [epub-33] to be annotated with a human-readable name.
+rendition:label屬性允許每一個rootfile元素[epub-33]以人類可讀的名稱添加註解。
 
-Attribute Name
+### 屬性名稱
 label
 
-Namespace
+### 命名空間
 http://www.idpf.org/2013/rendition
 
-Usage
-MAY be specified on container document rootfile elements [epub-33].
+### 用法
+可以用於容器文件的rootfile元素[epub-33].
 
-Value
-Text.
+### 值
+文字
 
-The rendition:label attribute provides a name for the given rendition (e.g., for manual rendition selection).
+rendition:label屬性為內容釋義提供名稱（例如供手動選擇內容釋義使用）。
 
-The language of the rendition:label attribute MAY be expressed in an xml:lang attribute.
+rendition:label屬性使用的語言可以一個xml:lang屬性來進行表述。
 
-EXAMPLE 6
-The following example shows the rendition:label attribute being used to provide a human-readable name for a rendition.
+###### 範例 6
+以下範例呈現rendition:label屬性被用於為內容釋義提供人類可讀的名稱。
 
 <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
            xmlns:rendition="http://www.idpf.org/2013/rendition"
@@ -500,112 +516,136 @@ The following example shows the rendition:label attribute being used to provide 
            rendition:label="Color-optimized print replica"/>
    </rootfiles>
 </container>
-The rendition:label attribute is not a selection attribute for the purposes of evaluating which rendition to render.
+
+rendition:label屬性並非用於評量要處理哪一個內容釋義的選擇用屬性。
 
 ## 4.5 處理模型
 
+本章節描述閱讀系統選擇最佳化內容釋義呈現給讀者的方法。
 
-This section describes the method by which reading systems locate the optimal rendition to present to a user.
+選擇內容釋義應該發生在初次處理時，以及閱讀系統應該在使用者環境改變（例如，改變裝置方向或者可視尺寸時）作為反應重新對選擇進行評量。
 
-rendition selection SHOULD occur on initial rendering, and reading systems SHOULD re-evaluate the selection in response to changes in the user environment (e.g., change in device orientation or viewport size).
+當觸動狀態變更時，閱讀系統應該對容器文件中的rootfile元素[epub-33]以以下方式，從最後一個rootfile項目開始評量：
 
-When a change condition is triggered, the reading system SHOULD evaluate the rootfile elements [epub-33] in the container document as follows, starting with the last rootfile entry:
+- 如果內容釋義有設定命名空間內的屬性，確認每一個屬性是否為4.4內容釋義選擇屬性中定義的屬性，並由其定義判斷指定的狀態是否為真：
 
-If rendition namespaced attributes are set, check each attribute per its definition in 4.4 Rendition selection attributes to determine if the specified conditions are true:
-If all conditions evaluate to true, select the given rendition and exit the selection process.
-If any condition is false, move to the preceding rootfile element and continue the evaluation process.
-If any unrecognized rendition-namespaced attributes are found, they are ignored for the purposes of evaluating a match.
-If no rendition namespaced attributes are found, move to the preceding rootfile element and continue the evaluation process.
-If the default rendition is reached, select that rendition and exit the process.
+- 如果所有的狀態評量為真，選擇該內容釋義並且離開選擇程序。
 
-NOTE
-This processing model does not require that the selection process occur on a user's device, or that all renditions be provided in the container. rendition selection could occur on the server side of a cloud-based delivery system, for example, and only a single best-match rendition sent to the device.
+- 如果任一狀態為假，移去處理下一個rootfile元素，並且持續評量程序。
 
-NOTE
-Since EPUB 2 reading systems, and EPUB 3 reading systems that do not support multiple-rendition selection, will render the default rendition, EPUB creators need to consider which rendition will have the greatest compatibility across reading systems and ensure it is listed first.
+- 如果發現任何無法辨識的內容釋義屬性，就應該忽視，不供評量用途所使用。
 
-A reading system MAY provide the user the option to manually select any of the renditions in the container. It SHOULD use the rendition:label attribute attribute value to present the option, when available.
+- 如果找不到內容釋義中有任何命名空間內的屬性，移去處理下一個rootfile元素，並且持續評量程序。
 
-As EPUB did not previously define a rendition selection model, custom selection models might be encountered in some EPUB publications. When recognized, these selection models SHOULD be utilized. If both rendition selection attributes conformant to this specification and custom attributes are defined, the latter SHOULD be ignored.
+- 如果處理到預設內容釋義，選擇該內容釋義並且離開程序。
 
-# 5. 內容釋義對應
+###### 注意事項
+
+本處理模型不要求選擇程序發生在使用者裝置上，或者提供容器中的所有內容釋義。例如，內容釋義選擇可以發生在基於雲端的遞送系統之伺服器端，並且僅將一個最佳匹配的內容釋義送到裝置上。
+
+###### 注意事項
+
+由於EPUB 2閱讀系統，以及不支援多重內容釋義選擇的EPUB 3閱讀系統只會處理預設內容釋義，EPUB製作者需要思考哪一個內容釋義在閱讀系統間有最廣的相容性，確保其被列於第一。
+
+閱讀系統可以給使用者選項來手動選擇容器中的內容釋義。如果有的話，應該使用rendition:label屬性的值來作為選擇項目呈現。
+
+由於以前EPUB沒有定義內容釋義選擇模型，一些EPUB出版品可能會有自己的選擇模型。如果可以辨識，則應該使用這些選擇模型。如果同時具備合乎本規格的內容釋義選擇屬性以及自行定義的屬性，後者應該被忽略。
+
+# 5. 內容釋義映射
 
 ## 5.1 導論
 
 本章節為非規範性。
 
-The rendition mapping document identifies related content locations across the renditions in a multiple-rendition publication, allowing reading systems to switch between renditions while keeping the user's place.
+內容釋義映射文件用於在一份多重內容釋義出版品中，跨內容釋義識別相關的內容位址，讓閱讀系統在切換內容釋義時，能夠保持使用者正在讀的位置。
 
-The rendition mapping document is represented as XHTML, and uses nav elements with unordered lists to group the mappings. There is no display component to the rendition mapping document; it is designed to enable automated switching. The lack of a rendering context means that the XHTML content model for this document is very restrictive, allowing only a single nav element in the body, to ease both authoring and processing.
+內容釋義映射文件以XHTML呈現，使用nav元素透過無排序的列表來將映射位置分組。在內容釋義映射文件中沒有顯示用元件；設計上是為了啟動自動切換。由於XHTML內容模型缺少處理脈絡的方法，使得這份文件相當受限，僅允許在body中只用單一nav元素，以簡化製作與處理程序。
 
-To enable the mapping of content locations between renditions, the rendition mapping document's nav element consists of a series of one or more unordered lists, each of which represents a common point across all the renditions (e.g., a chapter, a page or a component within a page). The list items in each unordered list represent the set of equivalent link destinations across the available renditions for that content (e.g., one link might point to a document representing one page of a fixed layout rendition, while the equivalent link to a reflowable rendition might point to the corresponding page break indicator within the XHTML content document containing the page).
+為了要在內容釋義間啟動內容位址的映射，內容釋義映射文件的nav元素包含了一系列一或多個無排序列表，每一項代表了跨所有內容釋義的共通點（例如，一章、一頁、或者頁內的一個元素）。在每一個無排序列表中的列表項目代表了一組對等的連結目標群，跨所有內容中可用的內容釋義（例如，一個連結可能指向固定版面內容釋義中的一頁，而可重排內容釋義的對等連結所指向的是包含該頁面XHTML內容文件的分頁指示點）。
 
-Knowing the position of the user in the current rendition, when a change in context occurs, or is triggered by the user, the reading system can inspect the sibling list items to determine the EPUB content document to load that best meets the new conditions.
+閱讀系統可以檢查相鄰的列表項目來知悉使用者在目前內容釋義所讀到的位置，當脈絡發生變化，或者由使用者觸發時，能判斷載入哪一份EPUB內容文件最能符合新的狀態。
 
 ## 5.2 內容適用性
 
-An EPUB publication MAY include a rendition mapping document.
+一本EPUB出版品可以包含一份內容釋義映射文件。
 
-A conformant rendition mapping document:
+一份合乎規定的內容釋義映射文件：
 
-MUST conform to all content conformance constraints for XHTML content documents as defined in XHTML Requirements [epub-33].
-MUST conform to all content conformance constraints specific for rendition mapping documents expressed in EPUB rendition mapping document definition.
-MUST NOT be listed in the package document manifest of any of the EPUB publication's renditions.
+- 必須合乎XHMTL需求[epub-33]中所定義對於XHTML內容文件的所有內容合規性限制。
+
+- 必須合乎EPUB內容釋義映射文件定義中專對內容釋義映射文件制定的所有內容合規性限制。
+
+- 不得於EPUB出版品的內容釋義中列於任一內容文件宣告中。
 
 ## 5.3 閱讀系統適用性
 
-Reading systems SHOULD support the use of rendition mapping documents to switch between content.
+閱讀系統應該支援在切換內容時使用內容釋義映射文件。
 
-A reading system that supports mapping:
+支援映射的閱讀系統：
 
-MUST, when a change in renditions occurs, locate the current position in the rendition mapping document and load the matching position in the new rendition.
+- 必須在更換內容釋義發生時，掌握內容釋義映射文件中現在所在位址，並且載入新內容釋義中的對應位置。
 
 ## 5.4 EPUB內容釋義對應文件定義
 
-NOTE
-The content of this file is also defined informally through an XML schema. See A.3 Mapping document schema for further details.
+###### 注意事項
+
+本檔案中的內容也非正式地透過一份XML綱要進行定義。請見A.3映射文件綱要以獲得更多細節。
 
 ### 5.4.1 XHTML內容文件：限制
 
-The rendition mapping document is a compliant XHTML content document, but with the following restrictions on the [html] content model:
+內容釋義映射文件須遵從XHTML內容文件規定，但在[html]內容模型上有著以下限制：
 
-No attributes are allowed on the html, head, body, ul and li elements. (The xmlns pseudo-attribute for namespace declarations is allowed.) The nav element only accepts an epub:type attribute.
-The head MAY contain only meta elements. Only the charset attribute or name and content attributes MAY be attached to the meta elements.
-The head MUST include a meta element whose name attribute has the value "epub.multiple.renditions.version" and whose content attribute has the value "1.0". Reading systems MAY ignore all other meta elements.
-The body element MUST include exactly one nav element child whose epub:type attribute specifies the value "resource-map", and MAY include one or more optional nav elements. No other [html] content is allowed as a child of the body.
+- html、head、body、ul及li元素不允許使用任何屬性。（僅允許xmlns偽屬性用於宣告命名空間）nav元素僅接受一個epub:type屬性。
+
+- head只能包含meta元素。meta元素只能附加charset屬性或者name以及content屬性。
+
+- head必須包含一個meta元素，其name屬性的值為"epub.multiple.renditions.version"，其content屬性的值為"1.0"。閱讀系統可以忽略所有其他的meta元素。
+
+- body元素必須包含唯一的nav子元素，其epub:type指定值為"resource-map"，以及可以包含一或多個選擇性的nav元素。在body的子元素中，不能有其他[html]內容。
 
 ### 5.4.2 nav元素：變更與限制
 
-This specification restricts the content model of nav elements and their descendants in the rendition mapping document as follows:
+本規格在內容釋義映射文件中限制nav元素及其子孫項的內容模型如下：
 
-Each nav element MUST identify its nature in an epub:type attribute.
-The rendition mapping documents uses unordered lists (ul) in place of ordered lists (ol).
-The nav element MAY contain one or more ul element.
-Each list item (li) MUST contain exactly one a element (i.e., span headings and nested lists are forbidden).
-a elements MUST be empty.
-The a element MUST specify the rendition it is referring to either:
+- 每一個nav元素必須透過一個epub:type屬性以識別其特質。
 
-by using an Intra-Publication CFI [epubcfi-11] as the value of the href attribute or,
-by having an epub:rendition attribute whose value is the relative path to the Publication Document for the rendition.
+- 內容釋義映射文件使用無排序列表(ul)代替有序列表(ol)。
+
+- nav元素可以包含一或多個ul元素。
+
+- 每一列表項目必須包含唯一的a元素（也就是禁止使用span標題以及巢狀列表）。
+
+- a元素必須為空。
+
+- a元素必須指向所參照的內容釋義如下：
+
+	- 使用跨出版品CFI[epubcfi-11]作為其href屬性的值，或者，
+
+	- 透過一個epub:rendition屬性，其值為該內容釋義中出版品文件的相對路徑。
 
 ### 5.4.3 內容釋義對應
 
-Each ul element in the rendition mapping document resource-map nav element identifies a content location, listing in its child li elements where that location is found in each of the available renditions. Consequently, each ul element MUST contain an li for each rendition.
+每一個在內容釋義映射文件resource-map nav元素中的ul元素用於識別內容位址，其子li元素表列每一個可使用內容釋義的對應位址。結果使得每一個ul元素必須為每一份內容釋義包含一個li。
 
-NOTE
-In order to allow a broad variety of use cases, this specification does not impose any particular level of mapping granularity. For example, some publications aimed at language learners may define sentence-level synchronisation points, whereas other types of publications may only map major sections across renditions.
+###### 注意事項
 
-Each list item in the unordered list MUST identify an EPUB content document, or a fragment therein, for one of the renditions ‒ defined in a child a element. Each of these links MUST reference a linear Top-level content document [epub-33].
+為了讓使用案例更為多元，本規格並不指定映射的粒度等級。例如，有些出版品目標讀者為語言學習者，可能會定義句子層級為同步點，而其他類別的出版品可能只會跨內容釋義時對應到主要章節而已。
 
-Each a element MUST specify which rendition it refers to either 1) by including an Intra-Publication CFI [epubcfi-11] in its href attribute, or 2) by providing the relative path to the package document for the rendition as the value of an epub:rendition attribute.
+每一個在無排序列表中的列表項目必須為a子元素中定義的內容釋義，指向一份EPUB內容文件，或者其中的一個斷片。每一個連結必須參照線性最高層級內容文件[epub-33]。
 
-If the epub:rendition attribute is used to specify the target rendition, any fragment identifier scheme MAY be used within the URL value of the href attribute of a elements (e.g., unique identifier, or W3C Media Fragment).
+每一個a元素必須指定所參照的內容釋義，以1)在其href屬性中包含跨出版品CFI[epubcfi-11]的方式，或者2)在epub:rendition屬性中，將該內容釋義包裝文件的相對路徑作為值提供。
 
-NOTE
-The use of [epubcfi-11] expressions is strongly encouraged over other fragment identifier schemes (particularly in the context of reflowable XHTML content documents), as they allow reading systems to ingest rendition mappings without any prior pre-processing. Conversely, the use of unique identifiers forces reading systems to load the targeted EPUB content documents and process their DOM in order to sort/compare the link destinations (in relation to document order). This additional processing has performance implications, and implementation costs in terms of caching, incremental updating, etc.
+如果使用epub:rendition屬性來指定目標內容釋義，在a元素的href屬性中，任何斷片識別碼綱要都可以被當作URL的值使用（例如，唯一識別碼，或者W3C媒體斷片）。
 
-EXAMPLE 7
-The following example shows a rendition mapping document for a magazine with 3 renditions: text, portrait and landscape. ‘article 1' is on pages 5 and 6 of the fixed layout renditions and the landscape rendition uses spreads (non-synthetic).
+###### 注意事項
+
+我們強烈推薦使用[epubcfi-11]表述，勝於其他斷片識別綱要（尤其在可重排XHTML內容文件的脈絡下），因為該表述可以讓閱讀系統無需做任何預先處理，就能獲得內容釋義映射資訊。
+
+反過來說，使用唯一識別碼強制閱讀系統要載入目標的EPUB內容文件，並且處理其DOM以能排序/比較連結目的地（與文件順序的關係）。這額外的處理和效能相關，並且會增加在快取、增量更新等的實作成本。
+
+###### 範例 7
+
+以下範例呈現一份內容釋義映射文件用來對一本雜誌中的3個內容釋義：文字、直式（Portrait）以及橫式（Landscape）。'article 1'跨固定版面內容釋義的第五與第六頁，而橫式內容釋義使用跨頁（非同步）。
 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -646,8 +686,10 @@ The following example shows a rendition mapping document for a magazine with 3 r
         </nav>
     </body>
 </html>
-EXAMPLE 8
-The following example shows a multilingual EPUB publication with each language in a separate rendition.
+
+###### 範例 8
+
+以下範例呈現一份多語系EPUB出版品，其不同語言分別位於獨立的內容釋義。
 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -684,18 +726,21 @@ The following example shows a multilingual EPUB publication with each language i
     </body>
 </html>
 
-### 5.4.4 識別容器
+### 5.4.4 在容器中識別
 
+內容釋義映射文件的位址，在容器文件中使用一個link元素[epub-33]來進行識別，其位於：
 
-The location of the rendition mapping document is identified in the container document using a link element [epub-33], where:
+- href屬性必須參照內容釋義映射文件相對於EPUB容器根目錄所在的位址；
 
-the href attribute MUST reference the location of the rendition mapping document relative to the root of the EPUB container;
-the rel attribute MUST specify the value "mapping";
-the media-type attribute MUST specify the value "application/xhtml+xml".
-The container document MUST NOT reference more than one mapping document.
+- rel屬性必須指定為值"mapping"；
 
-EXAMPLE 9
-The following example shows the container.xml file for a multilingual EPUB publication. The location of the rendition mapping document is included in the link element.
+- media-type屬性必須指定為值"application/xhtml+xml"。
+
+容器文件不得參照多於一個的映射文件。
+
+###### 範例 9
+
+以下範例呈現多語系EPUB出版品的container.xml檔案。內容釋義映射文件的位址包含在link元素內。
 
 <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
            xmlns:rendition="http://www.idpf.org/2013/rendition"
@@ -717,68 +762,70 @@ The following example shows the container.xml file for a multilingual EPUB publi
 
 ## 5.5 處理模型
 
-
 本章節為非規範性。
 
-This section provides a non-normative model by which the rendition mapping document could be processed by a reading system. It does not address how or when a reading system should switch renditions.
+本章節提供一個非規範性的模型，供閱讀系統處理內容釋義映射文件。該模型不描述如何或者何時閱讀系統該切換內容釋義。
 
-The desired outcome of the rendition mapping document's mapping capabilities is to display content in the new rendition that is equivalent to their location in the current rendition, so that a user maintains their place during reading. To accomplish this goal, a compliant reading system could follow these steps to reset the current rendition when a change condition is triggered:
+內容釋義映射文件映射能力預期的結果為在新的內容釋義中展示內容，其位址相等於目前內容釋義所呈現，因此使用者可以在閱讀時維持位置。為達到此目的，欲遵從此規格的閱讀系統可以跟隨以下步驟，當觸發狀態變更時，重設目前的內容釋義：
 
-First, it would ascertain the position range in the current rendition:
+- 首先，需要辨明目前內容釋義所在的位置範圍：
+	- 對於固定格式的內容釋義而言，位置極有可能落在目前可視區域的範圍之內。
+	- 對於可重排的內容釋義而言，位置極有可能落在目前呈現在螢幕上的文字範圍。
 
-For a fixed format rendition, this will most likely be the rectangle for the current viewport.
-For a reflowable rendition, this will most likely be the range of text currently shown on the screen.
-Next, it would determine which rendition to navigate to, as defined in 4.5 Processing model.
-Finally, the reading system would parse the ul elements to find ones that contain li elements with child a elements that both specify the same rendition and intersect the current range:
+- 其次，需要決定要導向哪一個內容釋義，如4.5處理模型所定義。
 
-If there is one and only one such ul element, the reading system would navigate to the beginning of the range in the new rendition.
-If there is more than one such ul element, then the reading system behavior is undefined. The reading system might prompt the user to select between the new locations, or might choose between them using its own heuristics.
-If no matching ul elements are found, the reading system will have to determine the location to navigate to in the new rendition as if there was no rendition mapping document.
-Note that what happens during navigation is largely a user experience issue, so a reading system might choose to consider additional information than above to try to achieve a better outcome.
+- 最後閱讀系統可以分析ul元素以找到其包含li元素的a子元素，其中指定相同內容釋義，並且與目前的範圍重疊：
+
+	- 如果僅有一個這樣的ul元素，閱讀系統將導向新內容釋義中該範圍的開始處。
+
+	- 如果有多於一個這樣的ul元素，並且閱讀系統行為尚未定義，閱讀系統可以協助使用者選擇新的位址，或者可以預測的方式在其中選擇適當的位址。
+
+	- 如果沒有匹配的ul元素，閱讀系統將需要決定新內容釋義中導向的位置，就如同沒有內容釋義映射文件一樣。
+
+請注意，導向時發生的事件將大幅影響使用者經驗，所以閱讀系統可以在上列以外增加額外的資訊已達到更好的結果。
 
 # A. 綱要
 
-
 本章節為非規範性。
 
-Validation using the schemas in this appendix requires a processor that supports [relaxng-schema] and [xmlschema11-2].
+使用本附錄中的綱要進行驗證，需要支援[relaxng-schema]及[xmlschema11-2]的處理器。
 
 ## A.1 Metadata.xml綱要
 
+用於在metadata.xml檔案中包含後設資料的綱要，如3.2出版品後設資料所說明，可於 https://github.com/w3c/epubcheck/blob/main/src/main/resources/com/adobe/epubcheck/schema/30/ocf-metadata-30.rnc 取得。
 
-The schema for including metadata in the metadata.xml file, as described in 3.2 Publication metadata, is available at https://github.com/w3c/epubcheck/blob/main/src/main/resources/com/adobe/epubcheck/schema/30/ocf-metadata-30.rnc.
 
 ## A.2 Container.xml綱要
 
-
-The schema for including rendition selection attributes in the container.xml file, as described in 4. Rendition selection, is available at https://github.com/w3c/epubcheck/blob/main/src/main/resources/com/adobe/epubcheck/schema/30/multiple-renditions/container.rnc.
+用於在container.xml檔案中包含內容釋義選擇屬性的綱要，如4. 選擇內容釋義所說明，可於 https://github.com/w3c/epubcheck/blob/main/src/main/resources/com/adobe/epubcheck/schema/30/multiple-renditions/container.rnc 取得。
 
 ## A.3 對應文件綱要
 
-
-The schema for Mapping Documents, as described in 5. Rendition mapping, is available at https://github.com/w3c/epubcheck/blob/main/src/main/resources/com/adobe/epubcheck/schema/30/multiple-renditions/mapping.rnc.
+用於映射文件的綱要，如5. 內容釋義映射所說明，可於 https://github.com/w3c/epubcheck/blob/main/src/main/resources/com/adobe/epubcheck/schema/30/multiple-renditions/mapping.rnc 取得。
 
 # B. 變更日誌
 
-
 本章節為非規範性。
 
-Note that this change log only identifies substantive changes since EPUB Multiple-Rendition Publications 1.0 — those that affect the conformance of EPUB publications or are similarly noteworthy.
+請注意本變更日誌僅列出自EPUB多重內容釋義出版品1.0以來的顯著變更——這些變更會影響EPUB出版品的適用性或有同等的重要性。
 
-For a list of all issues addressed during the revision, refer to the working group's issue tracker.
+若要取得在改版過程中所有議題的列表，請參考工作小組的議題追蹤器。
 
-19-Mar-2021: Require the use of the unique identifier in the metadata.xml file for obfuscating resources and recommend it be the same as the identifier in the default rendition. See issue 1443.
-19-Mar-2021: Added note clarifying that package documents need to be in a common directory to share resources. See issue 619.
-19-Mar-2021: Fixed incorrect reference to link element being a child of the container element. See issue 584.
-24-Dec-2020: The specification no longer makes reference to a release identifier, but the requirement to include a unique identifier and last modification date in the metadata.xml file remain for backwards compatibility. See issue 1440.
-16-Dec-2020: Terminology and requirements related to renditions of an EPUB publication have been moved to this specification to simplify readability of both this and the [epub-33] specification. These changes do not affect the ability to include multiple renditions in an EPUB publication. See issue 1436.
+19-Mar-2021: 在metadata.xml檔案中要求使用唯一識別碼供模糊化資源使用，並且推薦使用預設內容釋義的識別碼，請見issue 1443。
+
+19-Mar-2021: 增加注意事項以說明包裝文件需要被放在共通的資料夾中才能分享資源。請見issue 619。
+
+19-Mar-2021: 修正link元素作為容器元素子元素中錯誤的參照。請見issue 584。
+
+24-Dec-2020: 本規格不再參照發布識別碼，但依然需要在metadata.xml檔案中包含唯一識別碼與最後修改日期供向後相容性使用。請見issue 1440。
+
+16-Dec-2020: 與EPUB出版品內容釋義相關的術語及需求移到本規格，以便於閱讀本規格和[epub-33]規格。這些變更不影響在EPUB出版品中包含多重內容釋義。請見issue 1436。
 
 # C. 謝詞
 
-
 本章節為非規範性。
 
-The following members of the EPUB 3 Working Group contributed to the development of this specification:
+以下EPUB 3工作小組的成員對本規格的產製有所貢獻：
 
 Will AWAD (Newgen Knowledgeworks)
 Sofia Bautista (Legible Media Inc.)
@@ -854,9 +901,8 @@ Laurence Zaysser (EDRLab)
 # D. 參考資料
 ## D.1 規範性文件
 
-
 [dcterms]
-DCMI Metadata Terms. DCMI Usage Board. DCMI. 20 January 2020. DCMI Recommendation. URL: https://www.dublincore.org/specifications/dublin-core/dcmi-terms/
+DCMI Metadata Terms. DCMI ### 用法 Board. DCMI. 20 January 2020. DCMI Recommendation. URL: https://www.dublincore.org/specifications/dublin-core/dcmi-terms/
 [epub-33]
 EPUB 3.3. Matt Garrish; Ivan Herman; Dave Cramer. W3C. 3 October 2022. W3C Candidate Recommendation. URL: https://www.w3.org/TR/epub-33/
 [epubcfi-11]
