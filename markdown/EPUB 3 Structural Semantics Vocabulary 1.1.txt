@@ -1,0 +1,1494 @@
+
+EPUB 3結構語意用語集 1.1
+W3C小組備忘 10 August 2022
+
+更多關於此份文件的細節
+
+本版本：
+https://www.w3.org/TR/2022/NOTE-epub-ssv-11-20220810/
+
+最新發佈版本：
+https://www.w3.org/TR/epub-ssv-11/
+
+最新編輯草稿：
+https://w3c.github.io/epub-specs/epub33/ssv/
+
+歷史：
+https://www.w3.org/standards/history/epub-ssv-11
+發布歷程
+
+編輯者：
+Ivan Herman (W3C)
+Matt Garrish (DAISY Consortium)
+
+前任編輯：
+Tzviya Siegman (John Wiley & Sons)
+Markus Gylling (International Digital Publishing Forum (IDPF))
+
+提出回饋：
+GitHub w3c/epub-specs(提交請求, 新主題, 開放主題)
+以郵件主旨[epub-ssv-11] … 主題資訊 …寄到public-epub-wg@w3.org (存檔)
+
+Copyright © 2022 W3C® (MIT, ERCIM, Keio, Beihang). W3C liability, trademark and permissive document license rules apply.
+
+# 摘要
+
+本用語集為EPUB® 3標準的一部分，定義了一組特性用於描述文字作品的結構性語意。
+
+# 本文件狀態
+
+本章節描述了本文件在其發表時的狀態。目前W3C出版品及此技術報告的最新改版之列表皆列於W3C技術報告索引，網址為：https://www.w3.org/TR/
+
+本文件由EPUB 3工作小組按照備忘流程，發布為小組備忘。
+
+小組備忘不受W3C及其會員背書。
+
+本文件為草稿，而且可能會隨時更新，被其他文件所取代或淘汰。編輯作業尚未完成前，不適宜引用本文件。
+
+W3C專利政策此文件不做任何授權需求與承諾。
+
+本文件受2021年11月2日W3C流程文件所規範。
+
+# 目次
+
+摘要
+本文件狀態
+1. 導論
+1.1 關於此用語集
+2. 文件分塊（partitions）
+3. 文件分區（divisions）
+4. 文件章節（sections）以及元件（components）
+5. 文件導覽（navigation）
+6. 文件參考章節（reference sections）
+6.1 書目
+6.2 字辭典
+6.3 詞彙表
+6.4 索引
+7. 正文前章節（sections）以及元件（components）
+8. 附加內容
+9. 書名與標題
+10. 教育用內容
+10.1 學習目標
+10.2 測驗
+11. 漫畫
+12. 注意事項與註釋
+13. 參考書目
+14. 文件內文
+15. 分頁
+16. 表格
+17. 列表
+18. 圖片
+19. 次要內容（Asides）
+A. 致謝
+B. 參考資料
+B.1 規範性文件
+
+# 1. 導論
+
+結構語意為一個HTML（或SVG）元素添加額外與特定結構目的相關的的意義。epub:type屬性[epub-33]用於EPUB內容文件以及媒體覆蓋文件[epub-33]中用於表述該領域專屬的語意，這些結構性資訊能對基礎用語進行補足。
+
+套用的語意細化了元素中內容的意義，而不會改變對輔助技術使用的特質，像是使用近似的role屬性[html]，就會有所影響。這些屬性不會增進內容的無障礙輔助性，換句話說，只為使用目的提供提示。
+
+語意後設資料能豐富化內容，供出版工作流程或者作者自行定義的目的使用。也能讓閱讀系統了解更多文件的內容以及結構（像是能在媒體覆蓋文件中啟動可跳過性和可跳出性）。
+
+[epub-33]規格定義了使用屬性軸線來添增結構語意的方法：而不添加新元素。EPUB製作者可以在既有的元素上擴增epub:type屬性來添加想要的語意。本文件定義一系列特性與值，也就是用語集，能供本用途使用。
+
+## 1.1 關於此用語集
+
+EPUB結構化語意用語集與所附加的語言無關，但在架構上主要用於啟動HTML用語集中各元素的語意變化。
+
+「HTML用法脈絡（HTML usage context）」欄位用來指示，該特性在脈絡上與HTML文件的哪些部分有關。EPUB製作者可以將這些特性用於未列舉HTML標記元素上，但必須確認所表達的語意為該元素語意的子集，且不能將既有元素的意義附加在一個語意中立的元素上。
+
+「DPUB-ARIA角色（DPUB-ARIA role）」欄位用來指示，[dpub-aria-1.0]中可以額外為[html]添加role屬性，以提升無障礙輔助性。這些role可能有更多使用脈絡上的限制，也就是說，在可以使用epub:type屬性[epub-33]之地方使用role可能會不合規定。請參考[html-aria]以獲得更多關於role使用方式的資訊。
+
+當處理HTML文件時，閱讀系統可以忽略像這樣不符合規定的特性，除非其使用上脈絡被明確推翻，或者從主規格進行延伸。
+
+當有「用法細節（Usage details）」欄位時，用於識別定義或者使用指定特性的規格。作者僅能遵從這些用法細節，不然所製作的內容就無法合乎指定規格中的規定，除非這些規定適用於所有EPUB出版品。對其他狀況而言，特性可以在需要時任意使用。
+
+# 2. 文件分塊（partitions）
+
+### backmatter
+
+在一本出版品的主要內容之後的補充性內容，像是索引、附錄等。
+
+HTML用法脈絡: section, body
+
+### bodymatter
+
+一本出版品的主要內容。
+
+HTML用法脈絡: section, body
+
+### cover（封面）
+
+用於介紹該作品的區塊，經常包含一張行銷用的圖片、書名、作者以及出版社，和挑選的摘要及書評。
+
+HTML用法脈絡: section, body
+
+DPUB-ARIA角色: doc-cover (僅允許用於cover image標籤)
+
+### frontmatter
+
+在一本出版品的主要內容之前的材料，像是目次、獻詞，等。
+
+HTML用法脈絡: section, body
+
+# 3. 文件分區（divisions）
+
+### chapter（章節）
+
+一部作品中內容的主要主題章節。
+
+HTML用法脈絡: section, body
+
+DPUB-ARIA角色: doc-chapter
+
+### division（組）
+
+作為主要結構用的區塊也可以出現在作為部分的次結構上（特別用於法規）。
+
+HTML用法脈絡: section, body
+
+### subchapter（子章節） [不再推薦]
+
+一個章節的主要子區塊。
+
+HTML用法脈絡: section, body
+
+### part（部）
+
+一部作品中的主要結構區塊，其包含了一組相關的章節用於處理特定主題、故事線或者相似主題的集結。
+
+HTML用法脈絡: section, body
+
+DPUB-ARIA角色: doc-part
+
+### volume（卷）
+
+組成彙編（Collection）的一部分。
+
+HTML用法脈絡: section, body
+
+# 4. 文件章節（sections）以及元件（components）
+
+章節與元件一般出現在出版品的bodymatter中。
+
+### abstract（摘要） [草稿]
+
+對於作品或者一章節或者內容摘錄之主要想法、概念以及結論的短摘要
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-abstract
+
+### afterword（後記）
+
+由作者或者重要人物書寫的結尾敘述，主要提供解析說明作品是怎麼被寫下的、其重要性，以及透露其時間線上的相關事件。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-afterword
+
+### conclusion（結論）
+
+總結性的章節或者敘述，用於對作品做出摘要或者結束論述。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-conclusion
+
+### epigraph（題詞）
+
+在作品或者一章節開始處的一組引言，用於建構主題或者鋪陳氣氛。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-epigraph
+
+### epilogue（尾聲｜跋）
+
+論述的結論章節，用於結束或者對該作品的事件或者行動提出說明，一般從未來的角度敘述。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-epilogue
+
+### foreword（序）
+
+在作品之前的介紹性章節，一般不由該作品的作者所書寫。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-foreword
+
+### introduction（導論）
+
+前導章節，一般介紹該作品的特性或者目的。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-introduction
+
+### preamble（導言）
+
+作品開始的章節，一般包含了介紹及/或說明文字，關於該作品內容的特性或者目的。
+
+HTML用法脈絡: section, 群組內容
+
+### preface（自序）
+
+在作品之前的介紹性章節，一般由作品作者所書寫。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-preface
+
+### prologue（導言｜序幕）
+
+介紹性章節用於設定作品的背景，一般為敘述的一部分。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-prologue
+
+# 5. 文件導覽（navigation）
+
+### landmarks
+
+出版品內常見或重複出現元件的參照集合。
+
+HTML用法脈絡: 區塊內容
+
+用法細節: The landmarks nav Element [epub-33]
+
+### loa
+
+作品中所包含聲音片段的列表。
+
+HTML用法脈絡: 區塊內容
+
+### loi
+
+作品中所包含圖片的列表。
+
+HTML用法脈絡: 區塊內容
+
+### lot
+
+作品中所包含表格的列表。
+
+HTML用法脈絡: 區塊內容
+
+### lov
+
+作品中所包含影片片段的列表。
+
+HTML用法脈絡: 區塊內容
+
+### toc
+
+一份有序的連結列表，指向內容中的主要章節標題以提供導覽用輔助。目次可能包含整份作品，或者僅作品中的較小部分。
+
+HTML用法脈絡: 區塊內容
+
+DPUB-ARIA角色: doc-toc
+
+用法細節: The toc nav Element [epub-33]
+
+### toc-brief [草稿]
+
+目次的刪節版本。
+
+HTML用法脈絡: 區塊內容
+
+# 6. 文件參考章節（reference sections）
+
+### appendix
+
+補充資訊章節，其位置在主要內容的後面。目的用於提供資訊但並非中心。
+
+HTML用法脈絡: 區塊內容
+
+DPUB-ARIA角色: doc-appendix
+
+### colophon
+
+用於提供該版本製作資訊的短章節（例如，說明使用的字體），經常位於作品的最末。
+
+HTML用法脈絡: 區塊內容, 群組內容
+
+DPUB-ARIA角色: doc-colophon
+
+### credits [草稿]
+
+貢獻者資訊的集合。
+
+HTML用法脈絡: 區塊內容, 群組內容
+
+DPUB-ARIA角色: doc-credits
+
+### keywords [草稿]
+
+關鍵字集合。
+
+HTML用法脈絡: 區塊內容, 群組內容
+
+## 6.1 書目
+
+### biblioentry
+
+在書目資料中參照外部來源的一個項目。biblioentry一般來說，比內容中參照時提供了更多的細節資訊（例如，書名全名、作者、出版社、出版日期等）。
+
+必需的母脈絡: bibliography
+
+HTML用法脈絡: 群組內容
+
+DPUB-ARIA角色: doc-biblioentry (Deprecated)
+
+### bibliography
+
+作品中引述到的外部參考資料列表，來源可為印刷或者數位。
+
+HTML用法脈絡: 區塊內容
+
+DPUB-ARIA角色: doc-bibliography
+
+## 6.2 字辭典
+
+### antonym-group
+
+一組詞彙，每一項都有一個對立或者近似對立意義，來自詞語或者俚語。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Antonym Groups [epub-dict-10]
+
+### condensed-entry
+
+壓縮的字典詞條，設計於受限制的閱讀環境使用。
+
+必需的母脈絡: dictentry
+
+HTML用法脈絡: aside
+
+用法細節: The Condensed Entry [epub-dict-10]
+
+### def
+
+一個詞語或者俚語專屬意義的定義。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Definitions [epub-dict-10]
+
+### dictentry
+
+一個字典詞條。
+
+必需的母脈絡: dictionary
+
+HTML用法脈絡: article
+
+用法細節: The Dictionary Entry [epub-dict-10]
+
+### dictionary
+
+一組字典詞條。
+
+HTML用法脈絡: body 或 section
+
+用法細節: The Dictionary Container [epub-dict-10]
+
+### etymology
+
+解釋詞語之歷史來源。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Etymologies [epub-dict-10]
+
+### example
+
+說明定義術語或者片語使用方式的範本。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Examples [epub-dict-10]
+
+### gram-info
+
+與詞語相關的補充文法資訊，修改詞性或指明特別意義。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Related Grammatical Information [epub-dict-10]
+
+### idiom
+
+定義片語的實例。
+
+必需的母脈絡: dictentry 或 phrase-group
+
+HTML用法脈絡: dfn
+
+用法細節: Idioms [epub-dict-10]
+
+### part-of-speech
+
+詞語的文法功能。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: The Dictionary Container [epub-dict-10]
+
+### part-of-speech-list
+
+一個字典詞條中的詞性群組列表。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: ol
+
+用法細節: Part of Speech Lists [epub-dict-10]
+
+### part-of-speech-group
+
+與詞性相關的單位，內有關聯的意義與片語群組。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Part of Speech Groups [epub-dict-10]
+
+### phonetic-transcription
+
+一個字典詞條中的詞語或其他元素發音的音標。
+
+必需的母脈絡： dictentry 或 glossary
+
+HTML用法脈絡: 流動內容
+
+用法細節: Phonetic Transcriptions [epub-dict-10]
+
+### phrase-list
+
+一個字典詞條中的片語群組列表。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: ol 或 ul
+
+用法細節: Phrase Lists [epub-dict-10]
+
+### phrase-group
+
+用於組織從屬於一個俚語或範例之資訊的單位。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Phrase Groups [epub-dict-10]
+
+### sense-list
+
+一個字典詞條中意義群組的列表。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: ol
+
+用法細節: Sense Lists [epub-dict-10]
+
+### sense-group
+
+用於組織從屬於一個詞語或俚語之特殊意義資訊的單位。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Sense Groups [epub-dict-10]
+
+### synonym-group
+
+一組詞彙，每一項都有一個一致或者近似的意義的詞語或者俚語。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Synonym Groups [epub-dict-10]
+
+### tran
+
+將來源語言詞語、俚語或者範例之特殊意義轉換到目標語言的翻譯。
+
+必需的母脈絡： dictentry
+
+HTML用法脈絡: 流動內容
+
+用法細節: Translations [epub-dict-10]
+
+### tran-info
+
+與翻譯相關的文法或者用法資訊。
+
+必需的母脈絡： tran
+
+HTML用法脈絡: 流動內容
+
+用法細節: Translation-Related Information [epub-dict-10]
+
+## 6.3 詞彙表
+
+### glossary
+
+簡要的詞彙表，包含內容中出現過之新穎、罕見、特殊的術語。
+
+HTML用法脈絡: dl, 區塊內容
+
+DPUB-ARIA角色: doc-glossary
+
+用法細節: The Glossary Container [epub-dict-10]
+
+### glossdef
+
+詞彙表中術語的定義。
+
+必需的母脈絡: glossary
+
+HTML用法脈絡: glossdef特性套用於dd元素，其位於有著glossary特性的dl中。
+
+用法細節: Glossary Terms and Definitions [epub-dict-10]
+
+### glossterm
+
+詞彙表中的一個術語。
+
+必需的母脈絡: glossary
+
+HTML用法脈絡: glossterm特性套用於dd元素，其位於有著glossary特性的dl中。
+
+用法細節: Glossary Terms and Definitions [epub-dict-10]
+
+## 6.4 索引
+
+### index
+
+一組供導覽目的使用，有詳細資料的連結列表，其指向關鍵主題、名稱以及其他作品所涵蓋的重點。
+
+HTML用法脈絡: 區塊內容, body
+
+用法細節: index property [epub-indexes-10]
+
+DPUB-ARIA角色: doc-index
+
+### index-editor-note
+
+與單一條目有關的編輯說明。
+
+必需的母脈絡: index-entry
+
+HTML用法脈絡: 流動內容
+
+用法細節: index-editor-note property [epub-indexes-10]
+
+### index-entry
+
+一個術語，伴隨著附屬的子條目、位址、相互參照，及/或編輯說明。
+
+必需的母脈絡: index-entry-list
+
+HTML用法脈絡: li; 套用此特性時，母ul元素類別需為index-entry-list (內隱或者外顯)
+
+用法細節: index-entry property [epub-indexes-10]
+
+### index-entry-list
+
+一組連續的主條目或次條目之集合。
+
+必需的母脈絡: index-entry , index-group, and index
+
+HTML用法脈絡: ul; 套用此特性時，其原型需為index，卻不該在index-headnotes中。
+
+用法細節: index-entry-list property [epub-indexes-10]
+
+### index-group
+
+一組連續的主條目，其具備相同的特徵，例如以同一個字母開頭的主條目。
+
+必需的母脈絡: index
+
+HTML用法脈絡: 區塊內容
+
+用法細節: index-group property [epub-indexes-10]
+
+### index-headnotes
+
+敘述性或者其他種類的內容，用於協助使用者使用本索引。
+
+必需的母脈絡: index
+
+HTML用法脈絡: 區塊內容, header
+
+用法細節: index-headnotes property [epub-indexes-10]
+
+### index-legend
+
+索引中使用符號、縮寫或特別格式及其意義的列表。
+
+必需的母脈絡: index-headnotes
+
+HTML用法脈絡: 區塊內容, dl
+
+用法細節: index-legend property [epub-indexes-10]
+
+### index-locator
+
+出版品中被索引內容出現位址的參照。
+
+必需的母脈絡: index-entry , index-locator-list , 以及 index-locator-range
+
+HTML用法脈絡: a; 套用此特性時，其上層脈絡需為index-locator-list或index-locator-range。
+
+用法細節: index-locator property [epub-indexes-10]
+
+### index-locator-list
+
+序列位址或位址範圍的集合
+
+必需的母脈絡: index-entry
+
+HTML用法脈絡: ul
+
+用法細節: index-locator-list property [epub-indexes-10]
+
+### index-locator-range
+
+一組位址連結術語到一段內容範圍，而非單一定點。
+
+必需的母脈絡: index-locator-list 及 index-entry
+
+HTML用法脈絡: 流動內容
+
+用法細節: index-locator-range property [epub-indexes-10]
+
+### index-term
+
+單字、片語、字串、字形或者圖像，用於表達可被索引的內容。
+
+必需的母脈絡: index-xref-related , index-entry 及 index-xref-preferred
+
+HTML用法脈絡: 片語內容; 一般為 span
+
+用法細節: index-term property [epub-indexes-10]
+
+### index-term-categories
+
+索引內術語分類列表的外包裝。
+
+必需的母脈絡: index-xref-related 及 index-xref-preferred
+
+HTML用法脈絡: a
+
+用法細節: index-term-categories property [epub-indexes-10]
+
+### index-term-category
+
+單字、片語、字串、字形或者圖像，用於表達索引內的術語分類。
+
+必需的母脈絡: index-xref-related and index-xref-preferred
+
+HTML用法脈絡: a
+
+用法細節: index-term-category property [epub-indexes-10]
+
+### index-xref-preferred
+
+讓索引內一個術語能夠參照一或多個偏好的術語或者術語分類（等同於「請見xxx」）。
+
+必需的母脈絡: index-entry
+
+HTML用法脈絡: 流動內容
+
+用法細節: index-xref-preferred property [epub-indexes-10]
+
+### index-xref-related
+
+讓索引內一個術語能夠參照一或多個相關的術語或者術語分類（等同於「也請參照xxx」）。
+
+必需的母脈絡: index-entry
+
+HTML用法脈絡: 流動內容
+
+用法細節: index-xref-related property [epub-indexes-10]
+
+# 7. 正文前章節（sections）以及元件（components）
+
+正文前的章節以及元件，一般出現在出版品中的frontmatter。
+
+### acknowledgments
+
+一章節或者一份聲明用於對該作品問世有明顯貢獻的個人、組織、政府以及其他實體組織。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-acknowledgments
+
+### contributors
+
+對該作品有貢獻者的列表。
+
+HTML用法脈絡: section, 群組內容
+
+### copyright-page
+
+作品的版權頁。
+
+HTML用法脈絡: section, 群組內容
+
+### dedication
+
+作品前的獻詞，一般用來稱頌與作者親近的一或多人。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-dedication
+
+### errata
+
+在作品最初發表後發現錯誤的各項更正，通常稱為「勘誤表（corrigenda）」。
+
+HTML用法脈絡: section, aside, 群組內容
+
+DPUB-ARIA角色: doc-errata
+
+### halftitlepage
+
+作品的半扉頁（譯注：僅包含書名的頁面）。
+
+HTML用法脈絡: section, 群組內容
+
+### imprimatur
+
+正式授權作品出版的聲明。
+
+HTML用法脈絡: section, 群組內容
+
+### imprint
+
+與作品出版發行相關的資訊。
+
+HTML用法脈絡: section, 群組內容
+
+### other-credits
+
+對作品先前發表部分的致謝、像插畫或圖片作者致敬，以及摘要有版權內容的許可。
+
+HTML用法脈絡: section, 群組內容
+
+### revision-history
+
+作品改版紀錄。
+
+HTML用法脈絡: section, 群組內容
+
+### seriespage [草稿]
+
+行銷章節用於表列相關出版品。
+
+HTML用法脈絡: section, 群組內容
+
+### titlepage
+
+作品的標題扉頁。
+
+HTML用法脈絡: section, 群組內容
+
+# 8. 附加內容
+
+### case-study [草稿]
+
+對特定主題的詳細分析。
+
+繼承於: xhv:complementary
+
+HTML用法脈絡: 區塊內容
+
+### help [不再推薦]
+
+用於釐清內容某些面向或者輔助理解的有用資訊。
+
+繼承於: xhv:complementary
+
+HTML用法脈絡: aside, 片語內容
+
+被以下取代: tip
+
+### marginalia [不再推薦]
+
+跨出邊界（譯註：即為出血）的內容，不分文字還是圖像。
+
+繼承於: xhv:complementary
+
+HTML用法脈絡: aside, 片語內容
+
+被以下取代: aside
+
+### notice
+
+告知使用者某個動作或者事件會引起的後果。例如包含警告、提醒以及危險事項。
+
+HTML用法脈絡: section, 群組內容
+
+DPUB-ARIA角色: doc-notice
+
+### pullquote [草稿]
+
+由目前內容摘出語句，以顯著的方式排設或者強調，目的是為了引起對主題的注意或者對重點進行強調。
+
+繼承於: xhv:complementary
+
+HTML用法脈絡: aside
+
+DPUB-ARIA角色: doc-pullquote
+
+### sidebar [不再推薦]
+
+次要或補充性的內容，一般以盒狀或者插頁格式呈現。
+
+繼承於: xhv:complementary
+
+HTML用法脈絡: aside
+
+被以下取代: aside
+
+### tip
+
+用於釐清內容某些面向或者輔助理解的有用資訊。
+
+繼承於: xhv:complementary
+
+HTML用法脈絡: aside, 片語內容
+
+DPUB-ARIA角色: doc-tip
+
+### warning [不再推薦]
+
+警告。
+
+HTML用法脈絡: section, 群組內容
+
+被以下取代: notice
+
+# 9. 書名與標題
+
+### bridgehead [不再推薦]
+
+結構上明確的標題，但不供作品樹狀架構內容使用。
+
+HTML用法脈絡: 流動內容, 一般用於 p, div 或 span
+
+### covertitle
+
+作品的標題，如作品封面所呈現。
+
+繼承於: title
+
+HTML用法脈絡: 標題內容。本特性在文件範圍內應該只出現一次。
+
+### fulltitle
+
+作品的完整標題，可以簡單，就和標題（title）一樣；或者複雜，包含主標以及副標。
+
+繼承於: title
+
+等同於: http://purl.org/dc/terms/title
+
+HTML用法脈絡: 標題內容。本特性在文件範圍內應該只出現一次。
+
+### halftitle
+
+在作品第一頁或者在文字之前出現的標題。
+
+繼承於: title
+
+HTML用法脈絡: 標題內容。本特性在文件範圍內應該只出現一次。
+
+### label [草稿]
+
+用來處理部件標題順序的文字標籤（也就是「章(chapter)」、「部(Part)」、「圖片(Figure)」、「表格(Table)」）。
+
+繼承於: title
+
+HTML用法脈絡: 片語內容，標題內容, li 及 figcaption
+
+### ordinal [草稿]
+
+在一系列元件中用於指示順序的識別（也就是「1」、「４」、「B-1」）。
+
+繼承於: title
+
+HTML用法脈絡: 片語內容，標題內容的子項, li 及 figcaption
+
+### subtitle
+
+作品解釋性或者另外的標題，或者其中的一章節或者元件。
+
+繼承於: title
+
+HTML用法脈絡: 標題內容, 片語內容，標題內容的子項, paragraphs, divs
+
+DPUB-ARIA角色: doc-subtitle
+
+### title
+
+文件元件的主要名稱，像是一份列表、表格或者圖片。
+
+HTML用法脈絡: 標題內容、片語內容、標題內容的子項.
+
+# 10. 教育用內容
+
+## 10.1 學習目標
+
+### learning-objective
+
+學習目標的明確項目或者描述，或者對明確學習目標的參照。
+
+HTML用法脈絡: 流動內容, 片語內容
+
+### learning-objectives [草稿]
+
+一組學習目標。
+
+HTML用法脈絡: 區塊內容, 群組內容
+
+### learning-outcome [草稿]
+
+課程或者活動後，學生預期能達成的能力或者理解結果。
+
+HTML用法脈絡: 流動內容
+
+### learning-outcomes [草稿]
+
+一組學習成果。
+
+HTML用法脈絡: 區塊內容, 群組內容
+
+### learning-resource
+
+供協助學習使用的資源，或者對這樣資源的參照。
+
+HTML用法脈絡: 流動內容
+
+### learning-resources [草稿]
+
+一組學習資源。
+
+HTML用法脈絡: 區塊內容, 群組內容
+
+### learning-standard [草稿]
+
+一般由政府或者標準制定機關所提出的正式需求或者期望。
+
+HTML用法脈絡: 區塊內容, 片語內容
+
+### learning-standards [草稿]
+
+一組學習標準。
+
+HTML用法脈絡: 區塊內容, 群組內容
+
+## 10.2 測驗
+
+### answer [草稿]
+
+自我評價問題的組件，用以提供問題的答案。
+
+HTML用法脈絡: aside, 群組內容
+
+### answers [草稿]
+
+一組答案。
+
+HTML用法脈絡: 區塊內容, 群組內容
+
+### assessment
+
+一項考試、測驗，或者其他活動有助於評量學生對剛教導內容的理解。
+
+HTML用法脈絡: 區塊內容
+
+### assessments [草稿]
+
+一組測驗。
+
+HTML用法脈絡: 區塊內容
+
+### feedback [草稿]
+
+給讀者基於測驗結果的程序。
+
+HTML用法脈絡: 群組內容, 片語內容
+
+### fill-in-the-blank-problem [草稿]
+
+要求讀者輸入文字答案來完善句子、文章之類的問題
+
+HTML用法脈絡: aside, 群組內容
+
+### general-problem [草稿]
+
+以自由形式提供答案的問題。
+
+HTML用法脈絡: aside, 群組內容
+
+### match-problem [草稿]
+
+要求讀者從一份列表中的內容，選出與另一項列表中相呼應項目的問題。
+
+HTML用法脈絡: aside, 群組內容
+
+### multiple-choice-problem [草稿]
+
+提供一系列可能的答案供挑選，其中部分、全部，或者都不是正確答案的問題。
+
+HTML用法脈絡: aside, 群組內容
+
+### practice [草稿]
+
+複習用的習題或者範例。
+
+請參見: practices
+
+HTML用法脈絡: aside, 群組內容
+
+### practices [草稿]
+
+一組練習題。
+
+HTML用法脈絡: 區塊內容
+
+### qna
+
+內容的一章節，由一系列問題與答案所構成，像是訪談或者常見問題列表。
+
+HTML用法脈絡: lists 或 區塊內容
+
+DPUB-ARIA角色: doc-qna
+
+### question [草稿]
+
+自我評價問題的組件，提出要被解決的問題。
+
+HTML用法脈絡: 群組內容
+
+### true-false-problem [草稿]
+
+答案為是或非的問題。
+
+HTML用法脈絡: aside, 群組內容
+
+# 11. 漫畫
+
+### balloon
+
+漫畫格中的區塊，內包含角色的話語、對白或者想法。
+
+HTML用法脈絡: li
+
+用法細節: EPUB Region-Based Navigation [epub-region-nav-10]
+
+### panel
+
+獨立的圖格或者一張圖。
+
+HTML用法脈絡: li
+
+用法細節: EPUB Region-Based Navigation [epub-region-nav-10]
+
+### panel-group
+
+一組圖格（例如，四格漫畫）。
+
+HTML用法脈絡: li
+
+用法細節: EPUB Region-Based Navigation [epub-region-nav-10]
+
+### sound-area
+
+漫畫圖格中的文字區域，其用於表達聲音。
+
+HTML用法脈絡: li
+
+用法細節: EPUB Region-Based Navigation [epub-region-nav-10]
+
+### text-area
+
+漫畫圖格中的文字區域，用於表達標題、描述性文字、角色對話（在氣球中或者不在）之類。
+
+HTML用法脈絡: li
+
+用法細節: EPUB Region-Based Navigation [epub-region-nav-10]
+
+# 12. 注意事項與註釋
+
+### annotation [不再推薦]
+
+對作品中段落的解釋性資訊。
+
+繼承於: xhv:complementary
+
+HTML用法脈絡: aside, 片語內容
+
+被以下取代: Open Annotation in EPUB
+
+### endnote
+
+一組註釋的集合，其位於作品或者章節末，用於對對應的文字段落提供額外的脈絡。
+
+請參見: endnotes
+
+HTML用法脈絡: 用於aside元素作為單一尾註，或者區塊內容的子項作為群組中的個別尾註（請參考footnotes與endnotes）。
+
+DPUB-ARIA角色: doc-endnote (不再推薦)
+
+### endnotes
+
+一組尾註的集合，其位於作品或者章節末。
+
+請參見: endnote
+
+HTML用法脈絡: 區塊內容
+
+DPUB-ARIA角色: doc-endnotes
+
+### footnote
+
+補充性資訊，像是摘要或者補述，用於對對應的文字段落提供額外的脈絡。
+
+請參見: footnotes
+
+HTML用法脈絡: 用於aside元素作為單一腳註，或者區塊內容的子項作為群組中的個別腳註（請參考footnotes與endnotes）。
+
+DPUB-ARIA角色: doc-footnote
+
+### footnotes
+
+一組腳註的集合。
+
+請參見: footnote
+
+HTML用法脈絡: 區塊內容
+
+### note [不再推薦]
+
+註，此特性不包含空間定位語意，不像footnote與endnote特性。可以用於識別註解、尾註、旁註、行內註以及其他傳統命名無法對應的註解。
+
+HTML用法脈絡: 用於aside元素作為單一註，或者區塊內容的子項作為群組中的個別註（請參考footnotes與endnotes）。
+
+被以下取代: footnote, endnote
+
+### rearnote [不再推薦]
+
+出現在章節結束或者作品後方（backmatter）的註解。
+
+請參見: rearnotes
+
+HTML用法脈絡: 用於aside元素作為單一後註，或者區塊內容的子項作為群組中的個別後註（請參考footnotes與endnotes）。
+
+被以下取代: endnote
+
+### rearnotes [不再推薦]
+
+一組出現在章節結束或者作品後方（backmatter）的註解。
+
+請參見: rearnote
+
+HTML用法脈絡: 區塊內容
+
+被以下取代: endnotes
+
+# 13. 參考書目
+
+### annoref [不再推薦]
+
+一則註釋的參照。
+
+繼承於: xhv:link
+
+請參見: annotation
+
+HTML用法脈絡: a
+
+被以下取代: Open Annotation in EPUB
+
+### backlink [草稿]
+
+一個允許使用者回到內容相關位置的連結（例如，從腳註回到參照的位置，或者從詞彙表定義回到該術語出現的位置）。
+
+繼承於: xhv:link
+
+HTML用法脈絡: a
+
+DPUB-ARIA角色: doc-backlink
+
+### biblioref [草稿]
+
+一筆書目資料的參照。
+
+繼承於: xhv:link
+
+HTML用法脈絡: a
+
+DPUB-ARIA角色: doc-biblioref
+
+### glossref [草稿]
+
+一項詞彙表定義的參照。
+
+繼承於: xhv:link
+
+HTML用法脈絡: a
+
+DPUB-ARIA角色: doc-glossref
+
+### noteref
+
+一則註解的參照，一般以上標數字或者符號出現在內文之中。
+
+繼承於: xhv:link
+
+請參見: note
+
+HTML用法脈絡: a
+
+DPUB-ARIA角色: doc-noteref
+
+# 14. 文件內文
+
+用於說明片語層級元件的術語。
+
+### concluding-sentence
+
+片語或者句子，用於對所包含段落做出結論性摘要。
+
+HTML用法脈絡: 片語內容
+
+### credit [草稿]
+
+對整體內容來自第三方來源之素材，像是照片，的致謝。一般用來識別作者、著作權，以及任何再利用的的限制。
+
+HTML用法脈絡: 片語內容
+
+DPUB-ARIA角色: doc-credit
+
+### keyword
+
+一個關鍵字或者片語。
+
+HTML用法脈絡: 片語內容
+
+### topic-sentence
+
+片語或者句子，用於對所包含段落做出介紹性摘要。
+
+HTML用法脈絡: 片語內容
+
+# 15. 分頁
+
+### page-list
+
+一組有詳細資料的連結列表供導覽目的使用，其指向內容中的分頁點。
+
+HTML用法脈絡: 區塊內容
+
+DPUB-ARIA角色: doc-pagelist
+
+用法細節: page-list nav 元素 [epub-33]
+
+### pagebreak
+
+一個分隔點，用於指示在固定分頁的內容版本中，該位址為連續兩頁面的換頁點。
+
+換頁位址也常用來在純數位出版品（也就是沒有固定翻頁的版本存在）提供固定標記。這些標記，無論字體或者螢幕尺寸等會影響動態內容分頁的因素變化，都能提供恆定的導覽，。
+
+EPUB製作者必須確保分頁點名稱為終端使用者能使用的頁碼，與開始的頁碼相同。
+
+HTML用法脈絡: 內容, 使用的元素其title屬性值遞增，以用於呈現pagebreak的值
+
+DPUB-ARIA角色: doc-pagebreak
+
+# 16. 表格
+
+### table
+
+以表格形式包含資料或者內容的結構。
+
+HTML用法脈絡: 不允許
+
+媒體覆蓋使用脈絡: 用於識別seq或par是否為可跳出或可跳過的表格結構。
+
+### table-row
+
+一個表格結構中的一列資料或者內容。
+
+HTML用法脈絡: 不允許
+
+媒體覆蓋使用脈絡: 用於識別seq或par是否為可跳出或可跳過的表格列。
+
+### table-cell
+
+單一表格資料或者內容的儲存格。
+
+HTML用法脈絡: 不允許
+
+媒體覆蓋使用脈絡: 用於識別seq或par是否為可跳出或可跳過的表格儲存格。
+
+# 17. 列表
+
+### list
+
+包含列舉相關內容項目的結構。
+
+HTML用法脈絡: 不允許
+
+媒體覆蓋使用脈絡:  用於識別seq或par是否為可跳出或可跳過的列表結構。
+
+### list-item
+
+序列中的單一項目。
+
+HTML用法脈絡: 不允許
+
+媒體覆蓋使用脈絡: 用於識別seq或par是否為可跳出或可跳過的列表項目。
+
+# 18. 圖片
+
+### figure
+
+一則插畫、圖表、照片、代碼列表與類似內容，與作品的內容互相對照，並且通常伴隨著標題、圖說及/或作者資訊作為說明。
+
+HTML用法脈絡: 不允許
+
+媒體覆蓋使用脈絡: 用於識別seq或par是否為可跳出或可跳過的圖片。
+
+# 19. 次要內容（Asides）
+
+### aside
+
+次要或者補充的內容。
+
+HTML用法脈絡: 不允許
+
+媒體覆蓋使用脈絡: 用於識別seq或par是否為可跳出或可跳過的次要內容。
+
+# A. 致謝
+
+本章節為非規範性。
+
+以下EPUB 3工作小組的成員對本規格的產製有所貢獻：
+
+Will AWAD (Newgen Knowledgeworks)
+Sofia Bautista (Legible Media Inc.)
+Laura Brady (Legible Media Inc.)
+Leah Brochu (National Network for Equitable Library Service)
+Matthew C. Chan (House of Anansi Press)
+Yu-Wei Chang (Taiwan Digital Publishing Forum)
+Fred Chasen (Scribd)
+Juan Corona (Legible Media Inc.)
+Dave Cramer (W3C Invited Expert, chair)
+Romain Deltour (DAISY Consortium)
+Marisa DeMeglio (DAISY Consortium)
+Brady Duga (Google LLC)
+Reinaldo Ferraz (NIC.br - Brazilian Network Information Center)
+John Foliot (W3C Invited Expert)
+Teenya Franklin (Pearson plc)
+Hadrien Gardeur (EDRLab)
+Matt Garrish (DAISY Consortium)
+Jen Goulden (Crawford Technologies)
+Ivan Herman (W3C, staff contact)
+Tetsu Hoshino (Kodansha, Publishers, Ltd.)
+Norikazu Ishizu (Kadokawa Corporation)
+Norihito IYENAGA (Kodansha, Publishers, Ltd.)
+Rick Johnson (VitalSource Technologies)
+Ken Jones (Circular Software)
+Antonio Kamiya (Dentsu Group Inc.)
+Deborah Kaplan (W3C Invited Expert)
+Bill Kasdorf (Book Industry Study Group)
+George Kerscher (DAISY Consortium)
+Kazuhito Kidachi (Mitsue-Links Co., Ltd.)
+Masakazu Kitahara (Voyager Japan, Inc.)
+Toshiaki Koike (Voyager Japan, Inc.)
+Ryo Kuroda (ACCESS CO., LTD.)
+Charles LaPierre (Benetech)
+Dan Lazin (Google LLC)
+Laurent Le Meur (EDRLab)
+Victoria Lee (Apple, Inc.)
+Farrah Little (National Network for Equitable Library Service)
+Victor Lopes (Apple, Inc.)
+Karan Malhotra (Newgen Knowledgeworks)
+Makoto Murata (DAISY Consortium)
+Cristina Mussinelli (Fondazione LIA)
+Yoichiro Nagao (Kodansha, Publishers, Ltd.)
+Theresa O'Connor (Apple, Inc.)
+Yoshinori Ohmura (SHUEISHA Inc.)
+Rachel Osolen (National Network for Equitable Library Service)
+Gregorio Pellegrino (Fondazione LIA)
+Vijaya Gowri Perumal (Newgen Knowledgeworks)
+Wendy Reid (Rakuten Group, Inc., chair)
+John Roque (Apple, Inc.)
+Leonard Rosenthol (Adobe)
+Shinobu Sato (Kadokawa Corporation)
+Ben Schroeter (Pearson plc)
+Daihei Shiohama (MEDIA DO Co., Ltd.)
+Tzviya Siegman (Wiley)
+Avneesh Singh (DAISY Consortium)
+MOTOI SUZUKI (SHUEISHA Inc.)
+Yutaka Suzuki (Kadokawa Corporation)
+Kyrce Swenson (Pearson plc)
+Shinya Takami (Kadokawa Corporation, chair)
+Mateus Teixeira (W. W. Norton & Company)
+Yukio Tomikura (Kodansha, Publishers, Ltd.)
+Aimee Ubbink (Crawford Technologies)
+Daniel Weck (DAISY Consortium)
+Zheng Xu (Gardenia Corp)
+Fuqiao Xue (W3C)
+Evan Yamanishi (W. W. Norton & Company)
+Osamu Yoshiba (Kodansha, Publishers, Ltd.)
+Junichi Yoshii (Kodansha, Publishers, Ltd.)
+Naomi Yoshizawa (W3C)
+Laurence Zaysser (EDRLab)
+
+# B. 參考資料
+
+## B.1 規範性文件
+
+[dpub-aria-1.0]
+Digital Publishing WAI-ARIA Module 1.0. Matt Garrish; Tzviya Siegman; Markus Gylling; Shane McCarron. W3C. 14 December 2017. W3C Recommendation. URL: https://www.w3.org/TR/dpub-aria-1.0/
+[epub-33]
+EPUB 3.3. Matt Garrish; Ivan Herman; Dave Cramer. W3C. 7 August 2022. W3C Candidate Recommendation. URL: https://www.w3.org/TR/epub-33/
+[epub-dict-10]
+EPUB Dictionaries and Glossaries 1.0. IDPF. 26 August 2015. URL: http://idpf.org/epub/dict
+[epub-indexes-10]
+EPUB Indexes 1.0. IDPF. 26 August 2015. URL: http://idpf.org/epub/idx
+[epub-region-nav-10]
+EPUB Region-Based Navigation 1.0. IDPF. 26 August 2015. URL: http://idpf.org/epub/renditions/region-nav
+[html]
+HTML Standard. Anne van Kesteren; Domenic Denicola; Ian Hickson; Philip Jägenstedt; Simon Pieters. WHATWG. Living Standard. URL: https://html.spec.whatwg.org/multipage/
+[html-aria]
+ARIA in HTML. Steve Faulkner; Scott O'Hara; Patrick Lauke. W3C. 9 December 2021. W3C Recommendation. URL: https://www.w3.org/TR/html-aria/

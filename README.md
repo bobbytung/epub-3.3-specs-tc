@@ -41,10 +41,6 @@ EPUB的內容核心是包裝文件，而ZIP與container.xml為「容器」，在
     總覽](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-overview-33-20221004.html)（原文：[EPUB
     3.3 Overview](https://w3c.github.io/epub-specs/epub33/overview/)）
 
--   [x] 翻譯
-
--   [x] HTML
-
 -   EPUB 3.3（原文：[EPUB 3.3](https://w3c.github.io/epub-specs/epub33/core/)）
 
 -   [ ] 翻譯
@@ -61,10 +57,6 @@ EPUB的內容核心是包裝文件，而ZIP與container.xml為「容器」，在
 -   [EPUB多重內容釋義出版品 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-multi-rend-11-20221014) （原文：[EPUB Multipule-Rendition Publication
     1.1](https://w3c.github.io/epub-specs/epub33/multi-rend/)）
 
--   [x] 翻譯
-
--   [x] HTML
-
 -   EPUB文字轉換語音增強機制 1.1 （原文：[EPUB Text-to-Speech Enhancements
     1.0](https://www.w3.org/TR/epub-tts-10/)）
 
@@ -72,12 +64,8 @@ EPUB的內容核心是包裝文件，而ZIP與container.xml為「容器」，在
 
 -   [ ] HTML
 
--   EPUB結構語意用語集 1.1 （原文：[EPUB Structural Semantics Vocabulary
+-   [EPUB結構語意用語集 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-ssv-11.html) （原文：[EPUB Structural Semantics Vocabulary
     1.1](https://www.w3.org/TR/epub-ssv-11/)）
-
--   [ ] 翻譯
-
--   [ ] HTML
 
 -   EPUB無障礙輔助性 1.1 （原文：[EPUB Accessibility
     1.1](https://w3c.github.io/epub-specs/epub33/a11y/)）
