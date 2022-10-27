@@ -9,12 +9,13 @@ EPUB 3.3規格文件中文翻譯版本
 3.3版本為第一次由W3C工作小組循W3C推薦流程（W3C Recommendation
 Track）制定的標準，未來將會成為正式標準。
 本文件也預期由台灣數位出版聯盟提交正式中文翻譯版。
+許多過去曾經翻譯的文件，也重新調整，更換一些容易混淆的語彙，詳細請見Wiki中的Glossary。
+
+由於EPUB 3.3第一次透過W3C推薦流程發布，按照該流程，必須對規格內容實作進行測試，所有功能都要有兩個以上實作支援才能通過，正式成為推薦標準。所以在結構上進行大幅度的調整。這部分在「EPUB 3總覽」中進行說明，EPUB 3總覽此份文件並非W3C推薦流程規格。
 
 ## EPUB 3.3推薦流程文件
 
-由於EPUB 3.3第一次透過W3C推薦流程發布，按照該流程，必須對規格內容實作進行測試，所有功能都要有兩個以上實作支援才能通過，正式成為推薦標準。所以在結構上進行大幅度的調整。這部分在「EPUB 3.3總覽」中進行說明。
-
-首先是將過去多份文件整合，為了易於閱讀，也為了讓規格讀者：「EPUB製作者」和「閱讀系統開發者」兩種身份能快速找到需要的資訊，所以EPUB 3.3主規格分成「EPUB 3.3（出版品）」與「EPUB 3.3閱讀系統」。這兩份將會採推薦流程發布。
+此次改版最大的變更，是將過去多份文件整合，為了易於閱讀，也為了讓規格讀者：「EPUB製作者」和「閱讀系統開發者」兩種身份能快速找到需要的資訊，所以EPUB 3.3主規格分成「EPUB 3.3（出版品）」與「EPUB 3.3閱讀系統」。這兩份將會採推薦流程發布。
 
 過去有一些EPUB規格中的功能並未受到廣泛實作，所以在此次改版時，將這些內容分到其他文件，希望能更進一步完善這些功能，並且鼓勵實作，包括：
 
@@ -37,7 +38,7 @@ EPUB的內容核心是包裝文件，而ZIP與container.xml為「容器」，在
 ## 文件清單
 --------
 
--   [EPUB 3.3
+-  [x] [EPUB 3.3
     總覽](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-overview-33-20221004.html)（原文：[EPUB
     3.3 Overview](https://w3c.github.io/epub-specs/epub33/overview/)）
 
@@ -54,7 +55,7 @@ EPUB的內容核心是包裝文件，而ZIP與container.xml為「容器」，在
 
 -   [ ] HTML
 
--   [EPUB多重內容釋義出版品 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-multi-rend-11-20221014) （原文：[EPUB Multipule-Rendition Publication
+-  [x] [EPUB多重內容釋義出版品 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-multi-rend-11-20221014) （原文：[EPUB Multipule-Rendition Publication
     1.1](https://w3c.github.io/epub-specs/epub33/multi-rend/)）
 
 -   EPUB文字轉換語音增強機制 1.1 （原文：[EPUB Text-to-Speech Enhancements
