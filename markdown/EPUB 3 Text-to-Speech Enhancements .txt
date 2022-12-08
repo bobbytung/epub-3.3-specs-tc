@@ -1,0 +1,489 @@
+EPUB 3 文字轉換語音增強機制 1.0
+W3C小組備忘 10 August 2022
+
+更多關於此份文件的細節
+
+本版本：
+
+https://www.w3.org/TR/2022/NOTE-epub-tts-10-20220810/
+
+最新發佈版本：
+https://www.w3.org/TR/epub-tts-10/
+
+最新編輯草稿：
+https://w3c.github.io/epub-specs/epub33/tts/
+
+歷史：
+https://www.w3.org/standards/history/epub-tts-10
+發布歷程
+
+編輯者：
+Matt Garrish (DAISY Consortium)
+
+提出回饋：
+GitHub w3c/epub-specs  (提交請求, 新主題, 開放主題)
+以郵件主旨[epub-tts-10] … 主題資訊 …寄到public-epub-wg@w3.org (存檔)
+
+Copyright © 2022 W3C® (MIT, ERCIM, Keio, Beihang). W3C liability, trademark and permissive document license rules apply.
+
+## 摘要
+
+本文件描述用於增進EPUB 3出版品語音表現的製作特色與閱讀系統支援
+
+## 本文件狀態
+
+本章節描述了本文件在其發表時的狀態。目前W3C出版品及此技術報告的最新改版之列表皆列於W3C技術報告索引，網址為：https://www.w3.org/TR/
+
+本文件由EPUB 3工作小組按照備忘流程，發布為小組備忘。
+
+小組備忘不受W3C及其會員背書。
+
+本文件為草稿，而且可能會隨時更新，被其他文件所取代或淘汰。編輯作業尚未完成前，不適宜引用本文件。
+
+W3C專利政策不對此文件做任何授權需求與承諾。
+
+本文件受2021年11月2日W3C流程文件所規範。
+
+目次
+
+摘要
+
+本文件狀態
+
+1. 導論
+1.1 總覽
+1.2 背景說明
+1.3 術語
+1.4 適用性
+2. SSML屬性
+2.1 導論
+2.2 ssml:ph屬性
+2.3 ssml:alphabet屬性
+3. 發音辭典
+3.1 導論
+3.2 辭典適用性
+3.3 與EPUB內容文件相關聯
+4. CSS speech
+5. 閱讀系統支援
+5.1 導論
+5.2 適用性
+A. 變更日誌
+B. 致謝
+C. 參考資料
+C.1 規範性文件
+C.2 參考性文件
+
+## 1. 導論
+
+### 1.1 總覽
+
+能夠清晰並且正確地處理出版品文字轉換語音（TTS, Text-to-speech），能大幅提升出版品的可讀性，並增進理解。然而不幸的是，自然語音發音的複雜度以及文字轉換語音引擎內建詞彙的限制，經常讓發音不正確或難以識別。如果可行，使用者就得推測正確的意義；或者停下閱讀，把搞混的單字逐字母讀出。任何人曾經嘗試過以基本TTS播放來閱讀教育用或者教學用材料的話，就能理解該體驗帶來的挫折。
+
+W3C定義了各式各樣的技術，能用於增進對標記內容的語音處理：合成語音標記語言（Synthetic Speech Markup Language）[ssml], 發音辭典[pronunciation-lexicon]，以及CSS Speech模組。
+
+SSML與發音辭典提供了增強的語音處理。發音辭典就像TTS引擎可以使用的常用語字典，而SSML提供了能針對指定語句提供獨立發音的能力。EPUB製作者可以同時或者分別使用這些技術，取決於文字的複雜程度。儘管有這些優勢，這些技術目前尚未受到EPUB所依靠的XHTML與SVG格式所採用而無法簡單地運用。本文件提出了在EPUB內容文件中製作與處理的方法。
+
+本文件也涵蓋了CSS Speech的用法，能在EPUB中增進語音處理。CSS Speech包含的領域不同於SSML與發音辭典。不同於控制指定單字或者詞句的發薪，這些特性能讓EPUB製作者指定語音播放的各面向——處理哪些文字、以多大的音量，以哪種偏好的聲音等等。
+
+本文件也包含EPUB閱讀系統處理上該如何使用這些技術。雖然預期一般性的輔助技術，像是螢幕閱讀器可能也會受到這些技術的協助，但由這些技術使用的狀況並非本文件目標。
+
+### 1.2 背景說明
+
+本章節為非規範性。
+
+國際數位出版論壇的EPUB工作小組，最早定義了在EPUB 3.0[epubcontentdocs-30]中整合合成語音標記語言[ssml]和發音辭典[pronunciation-lexicon]的手段。如此一來EPUB製作者能夠以此增進閱讀系統中文字轉換語音（TTS, Text-to-speech）的語音處理品質。可以包含樣式表[css2]也能讓EPUB製作者能使用CSS Speech模組中正在開發的speech特性。
+
+儘管有些製作的內容採納了這些技術，但因為對這些技術穩定性的考量，閱讀系統的支援尚未能達到一定的層次。結果上使得這些技術目前以W3C工作小組備忘。
+
+EPUB製作者可以在其出版品中繼續使用這些技術，將其移到備忘，並不會改變其效力，或者影響向後相容性。強烈建議支援TTS語音的閱讀系統開發者時做這些支援。工作小組將在未來EPUB 3改版時會將任何符合支援需求的技術進行標準化。
+
+###### 注意事項
+
+HTML中的言說表述規格[spoken-html]，是W3C另一個將SSML帶入HTML的倡議。但人在早期階段而無法判斷其影響力，若未來有所影響，將會加入本文件中。工作小組會持續檢視該作業，並且持續更新本備忘以反映任何對EPUB中文字轉換語音處理的變化。
+
+### 1.3 術語
+
+本規格使用定義在EPUB 3.3[epub-33]的術語。
+
+並且定義以下術語：
+
+文字轉換語音（text-to-speech）
+
+閱讀系統利用合成人聲，將一本EPUB出版品中的文字內容處理成人造語音朗讀。
+
+###### 注意事項
+每一章節中只有術語第一次出現時會連結到其定義。
+
+### 1.4 適用性
+
+本規格中被標註為非規範性的章節，以及所有製作準則、圖表、範例以及注意事項都為非規範性。本規格其他部分皆為規範性。
+
+關鍵字：可以（MAY）、必須（MUST）、不得（MUST NOT）、應該（SHOULD）、不應（SHOULD NOT），在本文件中以如上粗體加底線格式出現時，須按照BCP 14[RFC2119] [RFC8174] 中的敘述詮釋。
+
+## 2. SSML屬性
+
+### 2.1 導論
+
+本章節為非規範性。
+
+W3C合成語音標記語言[ssml]是一種用於輔助文字轉換語音（TTS）引擎來產生合成語音的語言。雖然SSML設計上作為可獨自運作的文件類型，但其定義的語義也適合在其他標記語言中使用。
+
+本規格以兩項屬性重新定義[ssml]的音素元素— ssml:ph與ssml:alphabet —讓他們能在EPUB內容文件中使用。
+
+這些屬性讓EPUB製作者能為罕用詞彙指定合適的音標發音，避免TTS常會念錯，也可避免念成發音近似的詞彙。
+
+### 2.2 ssml:ph屬性
+
+ssml:ph屬性用於制定其所在元素中文字的音素/音標發音。
+
+屬性名稱
+ph
+
+命名空間
+https://www.w3.org/2001/10/synthesis
+
+用法
+EPUB製作者可以在EPUB內容文件中的任何元素使用該屬性，使其能在邏輯上連結對應的音標（也就是元素裡頭包含了文字內容，文字轉換語音引擎會進行處理）。
+
+EPUB製作者不得在子孫項已經包含了本屬性的元素中指定本屬性。
+
+值
+一個音素/音標表述，語句結構須合乎所使用的音素/音標表的規則。
+
+ssml:ph屬性繼承[ssml]音素元素ph屬性的製作規定。
+
+當ssml:ph屬性出現在其子孫項包含文字節點的元素時，該發音適用的對應文件文字，應為把子孫項文字節點按照文件順序連接起來的最終字串。所指定的音標發音邏輯上必須匹配該元素整體的文字資料（也就是，不能只對應到內容中孤立的一部分）。
+
+EPUB製作者不應把ssml:ph屬性用在沒有文字內容的元素，因為文字轉換語音引擎一班不會處理（像是用於空白的div或span元素）。該屬性不能用於為TTS播放增加額外的語音，閱讀系統當無法取代一般會處理的文字時，預期會忽略該屬性。
+
+###### 注意事項
+
+ssml:ph屬性不會取代帶有額外文字性質資訊的屬性值（例如alt[html]以及aria-label[wai-aria]）或連結額外的文字性質資訊（例如aria-describedby[wai-aria]）。
+
+同樣地，EPUB製作者不應添加空白的ssml:ph屬性以嘗試或者抑止對文字的處理。閱讀系統預期上會忽略這些空白的屬性。（請見aria-hidden屬性[wai-aria]，其用來指定內容僅用於視覺處理）。
+
+
+範例 1
+
+以下範例呈現在HTML標記中加入EPUB的發音。
+
+<html …
+      xmlns:ssml="http://www.w3.org/2001/10/synthesis"
+      ssml:alphabet="ipa">
+   …
+   <body>
+      <h1><span ssml:ph="ipʌb">EPUB</span> 3.3</h1>
+      …
+   </body>
+</html>
+
+範例 2
+以下範例呈現在SVG標記中加入EPUB的發音。
+
+<svg …
+     xmlns:ssml="http://www.w3.org/2001/10/synthesis"
+     ssml:alphabet="ipa">
+   <title><tspan ssml:ph="ipʌb">EPUB</tspan> 3 … </title>
+   …
+</svg>
+
+### 2.3 ssml:alphabet屬性
+
+ssml:alphabet屬性指定ssml:ph屬性中的值，使用何種音素/音標發音字母表。
+
+屬性名稱
+alphabet
+
+命名空間
+https://www.w3.org/2001/10/synthesis
+
+用法
+
+EPUB製作者可以在EPUB內容文件中的任何其子孫項包含文字內容的元素中使用該屬性。
+
+值
+在ssml:ph屬性中，其表述值所使用的發音字母表名稱。
+
+ssml:alphabet屬性繼承[ssml]音素元素字母表屬性的製作規定。
+
+ssml:alphabet屬性的值在文件樹中繼承。判斷供每個ssml:ph屬性值使用的發音字母表的方法為：先找出第一個ssml:alphabet屬性，其所在的元素ssml:ph也開始出現，接隨最接近的上層元素。
+
+EPUB製作者應該確保字母表所定義的範圍可包含所有以ssml:ph屬性表達的音素。缺少這樣的宣告就不能保證播放的互換性—例如閱讀系統可能會套用預設的字母表，或者可能讓該音素不發音。
+
+範例 3
+以下範例呈現在根html元素宣告全域使用x-JEITA字母表。然後在body覆寫轉為使用IPA。
+
+<html … 
+      xmlns:ssml="http://www.w3.org/2001/10/synthesis"
+      ssml:alphabet="x-JEITA">
+   …
+   <body>
+   	…
+   	   <p><span ssml:alphabet="ipa" ssml:ph="ipʌb">EPUB</span> is an …</p>
+   	…
+   </body>
+</html>
+
+範例 4
+以下範例呈現在根svg元素宣告全域使用x-SAMPA字母表。
+
+<svg …
+      xmlns:ssml="http://www.w3.org/2001/10/synthesis"
+      ssml:alphabet="x-sampa">
+   <title><tspan ssml:ph="ipVb">EPUB</tspan> Adoption Chart</title>
+   …
+</svg>
+
+###### 注意事項
+
+儘管[ssml]規格有一份參考的字母表清單，但目前尚未發表。因為W3C語音瀏覽器工作小組的章程已經過期，該工作小組預期不會發布這份清單。EPUB製作者應該參考閱讀系統支援文件來判斷所支援的字母表。一些常見的字母表包含x-JEITA（以及x-JEITA-IT-4002和x-JEITA-IT-4006）以及)x-sampa。
+
+## 3. 發音辭典
+
+### 3.1 導論
+
+本章節為非規範性。
+
+W3C發音辭典規格（Pronunciation Lexicon Specification, PLS）[pronunciation-lexicon]定義了基於XML格式發音辭典的語法與語意，可被用於自動語音辨識，以及文字轉換語音（TTS）引擎。
+
+
+發音辭典讓EPUB製作者可以定義單一全域的語音學發音，讓閱讀系統可以於詞彙每一次出現時使用，而不像SSML屬性，需要詞彙每次出現都標注一次。所以對於僅有一種發音，或者有多種發音卻常僅發其中一種音的詞彙而言，是更為有效率的定義發音方式。
+
+EPUB製作者可以使用[html]link元素以及[svg]link元素來讓相對應的EPUB內容文件類別與一或多個辭典產生關聯。當閱讀系統處理文件時，可以此識別連結的字典並且用於啟動文字轉換語音播放。
+
+### 3.2 辭典適用性
+
+一本發音辭典：
+
+- 必須符合定義在XML適用性[epub-33]中對XML文件的適用規則。
+
+- 必須合乎定義在[pronunciation-lexicon]的文法規則。
+
+###### 注意事項
+
+用來驗證辭典的非規範性綱要可由此取得：https://www.w3.org/TR/2008/REC-pronunciation-lexicon-20081014/pls.rng [pronunciation-lexicon]。
+
+
+範例 5
+以下範例呈現一本日文的發音辭典。
+
+<lexicon
+     version="1.0"
+     alphabet="ipa"
+     xml:lang="en"
+     xmlns="http://www.w3.org/2005/01/pronunciation-lexicon">
+   <lexeme>
+      <grapheme>EPUB</grapheme>
+      <phoneme>ipʌb</phoneme>
+   </lexeme>
+   …
+</lexicon>
+
+### 3.3 與EPUB內容文件相關聯
+
+EPUB製作者可以在EPUB內容文件中連結零或多個發音辭典[pronunciation-lexicon]。
+
+若要讓一份XHTML內容文件和發音辭典產生關連，EPUB製作者必須使用[html]link元素。同樣的要讓一份SVG內容文件與發音辭典產生關聯，EPUB製作者必須使用[svg]link元素。
+
+無論是哪一種EPUB內容文件，link元素必須要有rel屬性，設定為"pronunciation"，以及其type屬性設定為媒體類型"application/pls+xml"。
+
+EPUB製作者應該為每一個連結的link元素指定hreflang屬性，當指定時，其值必須符合發音辭典所關聯的語言[pronunciation-lexicon]。
+
+範例 6
+以下範例呈現兩份發音辭典（一份為中文，另一份為蒙文）與XHTML內容文件相關聯。
+
+<html … >    
+    <head>
+        …
+        <link rel="pronunciation" type="application/pls+xml" hreflang="cmn" href="../speech/cmn.pls"/>
+        <link rel="pronunciation" type="application/pls+xml" hreflang="mn" href="../speech/mn.pls"/>
+    </head>        
+    …
+</html>
+
+## 4. CSS speech
+
+CSS Speech[css-speech-1]模組定義了特性，能讓EPUB製作者宣告性地控制EPUB內容文件的聲音處理。其包含了特性用來指定偏好的文字轉換語音聲音、音量，在處理元素時還可以表現停頓與指示。
+
+由於EPUB內容文件支援使用層疊樣式表[css2]，EPUB製作者可以使用CSS Speech [css-speech-1]特性於樣式表定義中。
+
+範例 7
+以下範例呈現CSS宣告，在出版品中每一個新章節開始前給予一個聲音上的指引。
+
+section.chapter {
+   cue-before: url(audio/chapter_start.mp3) +6dB;
+}
+
+## 5. 閱讀系統支援
+
+### 5.1 導論
+
+閱讀系統可以按照他們所使用的引擎類型，以不同的方式實作文字轉換語音播放—例如，某種做法可能僅將文件中的文字內容送進引擎，而另一種可能支援完整的標記。本文件試圖在規定上提供彈性以允許這些差別。唯一的規定是在處理行為結果上需要正確。
+
+儘管本文件所指稱的「強化」，脈絡上用於本身有內建文字轉換語音處理能力的閱讀系統，但也期望任何應用程式或者輔助科技，若能存取EPUB出版品中的標記也能夠使用這些功能來提供強化的聲音處理。然而，確保這些技術能被這些應用程式所使用並非本文件的目標。
+
+### 5.2 適用性
+
+具有文字轉換語音（TTS）相容性的閱讀系統應該支援SSML屬性、發音辭典以及CSS Speech如下：
+
+SSML
+支援SSML的閱讀系統：
+
+必須按照[ssml]中對音素元素ph屬性的規定處理ssml:ph屬性，並且有額外規定如下：
+
+必須忽略其值為空白字串或者僅包含ASCII空白[infra]的ssml:ph屬性。
+
+必須忽略ssml:ph屬性，若其所在元素的子孫項文字內容為空白字串或者僅包含ASCII空白[infra]。
+
+必須忽略ssml:ph屬性，若其所在元素的子孫項文字內容表現為回退。
+
+必須按照[ssml]中音素元素alphabet屬性的規定處理ssml:alphabet屬性。
+
+發音辭典
+支援發音辭典的閱讀系統：
+
+必須按照[pronunciation-lexicon]的定義，處理所有在EPUB內容文件中連結的發音辭典。
+
+當EPUB內容文件，其語言與相關聯的發音辭典語言[pronunciation-lexicon]匹配時，必須將所提供的詞彙套用到EPUB內容文件中的文字節點。[bcp47]定義了匹配語言標籤的演算法。
+
+###### 注意事項
+
+不要求閱讀系統使用的文字轉換語音引擎支援發音辭典，並且將詞彙正確地處理並且應用。舉個例子，閱讀系統可以將辭典轉換成另外一種TTS引擎支援的字典格式。
+
+SSML與發音辭典
+
+支援SSML與發音辭典的閱讀系統：
+
+必須讓任何透過ssml:ph屬性提供的發音程序優先，當[pronunciation-lexicon]的文字素元素與元素中的文字節點匹配，並且帶有ssml:ph屬性時。
+
+CSS Speech
+本文件對閱讀系統作出支援如[css-speech-1]所定義之外的額外要求。
+
+## A. 變更日誌
+
+本章節為非規範性。
+
+請注意本變更日誌僅列出自EPUB內容文件3.2以來的顯著變更——這些變更會影響適用性或有同等的重要性。
+
+若要取得在改版過程中所有議題的列表，請參考工作小組的議題追蹤器。.
+
+25-June-2021: 釐清處理ssml:alphabet屬性，並且增加對ssml:ph屬性的額外規定，以避免用於添加或移除文字的語音化。請見issue 1706。
+
+
+25-June-2021: 釐清發音辭典的應用程式。請見issue 1705。
+
+22-June-2021: 新增讓SSML與PLD也能用於SVG內容文件。請見issue 1710。
+
+## B. 致謝
+
+本章節為非規範性。
+
+以下EPUB 3工作小組的成員對本規格的產製有所貢獻：
+
+Will AWAD (Newgen Knowledgeworks)
+Sofia Bautista (Legible Media Inc.)
+Laura Brady (Legible Media Inc.)
+Leah Brochu (National Network for Equitable Library Service)
+Matthew C. Chan (House of Anansi Press)
+Yu-Wei Chang (Taiwan Digital Publishing Forum)
+Fred Chasen (Scribd)
+Juan Corona (Legible Media Inc.)
+Dave Cramer (W3C Invited Expert, chair)
+Romain Deltour (DAISY Consortium)
+Marisa DeMeglio (DAISY Consortium)
+Brady Duga (Google LLC)
+Reinaldo Ferraz (NIC.br - Brazilian Network Information Center)
+John Foliot (W3C Invited Expert)
+Teenya Franklin (Pearson plc)
+Hadrien Gardeur (EDRLab)
+Matt Garrish (DAISY Consortium)
+Jen Goulden (Crawford Technologies)
+Ivan Herman (W3C, staff contact)
+Tetsu Hoshino (Kodansha, Publishers, Ltd.)
+Norikazu Ishizu (Kadokawa Corporation)
+Norihito IYENAGA (Kodansha, Publishers, Ltd.)
+Rick Johnson (VitalSource Technologies)
+Ken Jones (Circular Software)
+Antonio Kamiya (Dentsu Group Inc.)
+Deborah Kaplan (W3C Invited Expert)
+Bill Kasdorf (Book Industry Study Group)
+George Kerscher (DAISY Consortium)
+Kazuhito Kidachi (Mitsue-Links Co., Ltd.)
+Masakazu Kitahara (Voyager Japan, Inc.)
+Toshiaki Koike (Voyager Japan, Inc.)
+Ryo Kuroda (ACCESS CO., LTD.)
+Charles LaPierre (Benetech)
+Dan Lazin (Google LLC)
+Laurent Le Meur (EDRLab)
+Victoria Lee (Apple, Inc.)
+Farrah Little (National Network for Equitable Library Service)
+Victor Lopes (Apple, Inc.)
+Karan Malhotra (Newgen Knowledgeworks)
+Makoto Murata (DAISY Consortium)
+Cristina Mussinelli (Fondazione LIA)
+Yoichiro Nagao (Kodansha, Publishers, Ltd.)
+Theresa O'Connor (Apple, Inc.)
+Yoshinori Ohmura (SHUEISHA Inc.)
+Rachel Osolen (National Network for Equitable Library Service)
+Gregorio Pellegrino (Fondazione LIA)
+Vijaya Gowri Perumal (Newgen Knowledgeworks)
+Wendy Reid (Rakuten Group, Inc., chair)
+John Roque (Apple, Inc.)
+Leonard Rosenthol (Adobe)
+Shinobu Sato (Kadokawa Corporation)
+Ben Schroeter (Pearson plc)
+Daihei Shiohama (MEDIA DO Co., Ltd.)
+Tzviya Siegman (Wiley)
+Avneesh Singh (DAISY Consortium)
+MOTOI SUZUKI (SHUEISHA Inc.)
+Yutaka Suzuki (Kadokawa Corporation)
+Kyrce Swenson (Pearson plc)
+Shinya Takami (Kadokawa Corporation, chair)
+Mateus Teixeira (W. W. Norton & Company)
+Yukio Tomikura (Kodansha, Publishers, Ltd.)
+Aimee Ubbink (Crawford Technologies)
+Daniel Weck (DAISY Consortium)
+Zheng Xu (Gardenia Corp)
+Fuqiao Xue (W3C)
+Evan Yamanishi (W. W. Norton & Company)
+Osamu Yoshiba (Kodansha, Publishers, Ltd.)
+Junichi Yoshii (Kodansha, Publishers, Ltd.)
+Naomi Yoshizawa (W3C)
+Laurence Zaysser (EDRLab)
+
+## C. 參考資料
+
+### C.1 規範性文件
+
+[bcp47]
+Tags for Identifying Languages. A. Phillips, Ed.; M. Davis, Ed.. IETF. September 2009. Best Current Practice. URL: https://www.rfc-editor.org/rfc/rfc5646
+[css-speech-1]
+CSS Speech Module. Daniel Weck. W3C. 10 March 2020. W3C Candidate Recommendation. URL: https://www.w3.org/TR/css-speech-1/
+[css2]
+Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification. Bert Bos; Tantek Çelik; Ian Hickson; Håkon Wium Lie. W3C. 7 June 2011. W3C Recommendation. URL: https://www.w3.org/TR/CSS21/
+[epub-33]
+EPUB 3.3. Matt Garrish; Ivan Herman; Dave Cramer. W3C. 7 August 2022. W3C Candidate Recommendation. URL: https://www.w3.org/TR/epub-33/
+[html]
+HTML Standard. Anne van Kesteren; Domenic Denicola; Ian Hickson; Philip Jägenstedt; Simon Pieters. WHATWG. Living Standard. URL: https://html.spec.whatwg.org/multipage/
+[infra]
+Infra Standard. Anne van Kesteren; Domenic Denicola. WHATWG. Living Standard. URL: https://infra.spec.whatwg.org/
+[pronunciation-lexicon]
+Pronunciation Lexicon Specification (PLS) Version 1.0. Paolo Baggia. W3C. 14 October 2008. W3C Recommendation. URL: https://www.w3.org/TR/pronunciation-lexicon/
+[RFC2119]
+Key words for use in RFCs to Indicate Requirement Levels. S. Bradner. IETF. March 1997. Best Current Practice. URL: https://www.rfc-editor.org/rfc/rfc2119
+[RFC8174]
+Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words. B. Leiba. IETF. May 2017. Best Current Practice. URL: https://www.rfc-editor.org/rfc/rfc8174
+[ssml]
+Speech Synthesis Markup Language (SSML) Version 1.1. Daniel Burnett; Zhi Wei Shuang. W3C. 7 September 2010. W3C Recommendation. URL: https://www.w3.org/TR/speech-synthesis11/
+[svg]
+SVG. W3C. URL: https://www.w3.org/TR/SVG/
+
+### C.2 參考性文件
+
+[epubcontentdocs-30]
+EPUB Content Documents 3.0. Markus Gylling; William McCoy; Elika J. Etimad; Matt Garrish. IDPF. 11 October 2011. URL: http://idpf.org/epub/30/spec/epub30-contentdocs-20111011.html
+[spoken-html]
+Specification for Spoken Presentation in HTML. Irfan Ali; Markku Hakkinen; Paul Grenier; Ruoxi Ran. W3C. 23 September 2021. W3C Working Draft. URL: https://www.w3.org/TR/spoken-html/
+[wai-aria]
+Accessible Rich Internet Applications (WAI-ARIA) 1.0. James Craig; Michael Cooper et al. W3C. 20 March 2014. W3C Recommendation. URL: https://www.w3.org/TR/wai-aria/
+↑

@@ -58,12 +58,8 @@ EPUB的內容核心是包裝文件，而ZIP與container.xml為「容器」，在
 -  [x] [EPUB多重內容釋義出版品 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-multi-rend-11-20221014) （原文：[EPUB Multipule-Rendition Publication
     1.1](https://w3c.github.io/epub-specs/epub33/multi-rend/)）
 
--   EPUB文字轉換語音增強機制 1.1 （原文：[EPUB Text-to-Speech Enhancements
+-  [x] [EPUB文字轉換語音增強機制 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-tts-10.html) （原文：[EPUB Text-to-Speech Enhancements
     1.0](https://www.w3.org/TR/epub-tts-10/)）
-
--   [ ] 翻譯
-
--   [ ] HTML
 
 -   [EPUB結構語意用語集 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-ssv-11.html) （原文：[EPUB Structural Semantics Vocabulary
     1.1](https://www.w3.org/TR/epub-ssv-11/)）
