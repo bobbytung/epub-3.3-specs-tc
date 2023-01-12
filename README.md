@@ -38,15 +38,11 @@ EPUB的內容核心是包裝文件，而ZIP與container.xml為「容器」，在
 ## 文件清單
 --------
 
--  [x] [EPUB 3.3
+-  [EPUB 3.3
     總覽](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-overview-33-20221004.html)（原文：[EPUB
     3.3 Overview](https://w3c.github.io/epub-specs/epub33/overview/)）
 
--   EPUB 3.3（原文：[EPUB 3.3](https://w3c.github.io/epub-specs/epub33/core/)）
-
--   [ ] 翻譯
-
--   [ ] HTML
+-   [EPUB 3.3](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-33.html)（原文：[EPUB 3.3](https://w3c.github.io/epub-specs/epub33/core/)）
 
 -   EPUB 3.3 閱讀系統（原文：[EPUB 3.3 Reading
     Systems](https://w3c.github.io/epub-specs/epub33/rs/)）
@@ -55,32 +51,20 @@ EPUB的內容核心是包裝文件，而ZIP與container.xml為「容器」，在
 
 -   [ ] HTML
 
--  [x] [EPUB多重內容釋義出版品 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-multi-rend-11-20221014) （原文：[EPUB Multipule-Rendition Publication
+-   [EPUB多重內容釋義出版品 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-multi-rend-11-20221014) （原文：[EPUB Multipule-Rendition Publication
     1.1](https://w3c.github.io/epub-specs/epub33/multi-rend/)）
 
--  [x] [EPUB文字轉換語音增強機制 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-tts-10.html) （原文：[EPUB Text-to-Speech Enhancements
+-   [EPUB文字轉換語音增強機制 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-tts-10.html) （原文：[EPUB Text-to-Speech Enhancements
     1.0](https://www.w3.org/TR/epub-tts-10/)）
 
 -   [EPUB結構語意用語集 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-ssv-11.html) （原文：[EPUB Structural Semantics Vocabulary
     1.1](https://www.w3.org/TR/epub-ssv-11/)）
 
--   EPUB無障礙輔助性 1.1 （原文：[EPUB Accessibility
+-   [EPUB無障礙輔助性 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-a11y-11.html) （原文：[EPUB Accessibility
     1.1](https://w3c.github.io/epub-specs/epub33/a11y/)）
 
--   [ ] 翻譯
-
--   [ ] HTML
-
--   EPUB無障礙輔助性技巧 1.1 （原文：[EPUB Accessibility Techniques
+-   [EPUB無障礙輔助性技巧 1.1](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-a11y-tech-11.html) （原文：[EPUB Accessibility Techniques
     1.1](https://w3c.github.io/epub-specs/epub33/a11y-tech/)）
 
--   [ ] 翻譯
-
--   [ ] HTML
-
--   EPUB無障礙輔助性與歐盟無障礙法之對應關係 （原文：[EPUB Accessibility EU
+-   [EPUB無障礙輔助性與歐盟無障礙法之對應關係](https://bobbytung.github.io/epub-3.3-specs-tc/HTML/epub-a11y-eaa-mapping.html) （原文：[EPUB Accessibility EU
     Accessibility Act Mapping](https://www.w3.org/TR/epub-a11y-eaa-mapping/)）
-
--   [ ] 翻譯
-
--   [ ] HTML

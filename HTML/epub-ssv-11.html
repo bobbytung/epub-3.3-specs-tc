@@ -673,11 +673,11 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 		<section id="sec-introduction"><div class="header-wrapper"><h2 id="x1-introduction"><bdi class="secno">1. </bdi>導論</h2><a class="self-link" href="#sec-introduction" aria-label="Permalink for Section 1."></a></div>
 			
 
-			<p>結構語意能為HTML（或SVG）元素添加指定結構目的相關的額外意義。透過<code><a data-type="element-attr" href="https://www.w3.org/TR/epub-33/#dfn-epub-type">epub:type</a></code>屬性[<cite><a class="bibref" data-link-type="biblio" href="#bib-epub-33" title="EPUB 3.3">epub-33</a></cite>]在<a data-link-type="dfn" data-type="dfn" href="https://www.w3.org/TR/epub-33/#dfn-epub-content-document">EPUB內容文件</a>以及<a data-type="dfn" href="https://www.w3.org/TR/epub-33/#dfn-media-overlay-document">媒體覆蓋文件</a>[<cite><a class="bibref" data-link-type="biblio" href="#bib-epub-33" title="EPUB 3.3">epub-33</a></cite>]中使用，以表述該領域專屬的語意，這些用語能夠補足結構性資訊。</p>
+			<p>結構語意能為HTML（或SVG）元素添加指定結構目的相關的額外意義。透過<code><a data-type="element-attr" href="https://www.w3.org/TR/epub-33/#dfn-epub-type">epub:type</a></code>屬性[<cite><a class="bibref" data-link-type="biblio" href="#bib-epub-33" title="EPUB 3.3">epub-33</a></cite>]在<a data-link-type="dfn" data-type="dfn" href="https://www.w3.org/TR/epub-33/#dfn-epub-content-document">EPUB內容文件</a>以及<a data-type="dfn" href="https://www.w3.org/TR/epub-33/#dfn-media-overlay-document">媒體層疊文件</a>[<cite><a class="bibref" data-link-type="biblio" href="#bib-epub-33" title="EPUB 3.3">epub-33</a></cite>]中使用，以表述該領域專屬的語意，這些用語能夠補足結構性資訊。</p>
 
 			<p>元素添加這些語意，能精緻化其意義，同時不會改變供輔助技術使用的性質，若使用類似的<code><a data-type="element-attr" href="https://html.spec.whatwg.org/multipage/infrastructure.html#attr-aria-role">role</a></code>屬性[<cite><a class="bibref" data-link-type="biblio" href="#bib-html" title="HTML Standard">html</a></cite>]就會產生影響。這些屬性不會增進內容的無障礙輔助性，換句話說，只為提供提示目的使用。</p>
 
-			<p>語意後設資料能豐富化內容，供出版工作流程或者作者定義的用途所用。也能讓閱讀系統對文件的內容以及結構有更多理解（像是能在<a data-type="dfn" href="https://www.w3.org/TR/epub-33/#dfn-media-overlay-document">媒體覆蓋文件</a>中啟動<a href="https://www.w3.org/TR/epub-33/#sec-behaviors-skip-escape">可跳過性(skippability)和可跳出性(escapability)</a>）。</p>
+			<p>語意後設資料能豐富化內容，供出版工作流程或者作者定義的用途所用。也能讓閱讀系統對文件的內容以及結構有更多理解（像是能在<a data-type="dfn" href="https://www.w3.org/TR/epub-33/#dfn-media-overlay-document">媒體層疊文件</a>中啟動<a href="https://www.w3.org/TR/epub-33/#sec-behaviors-skip-escape">可跳過性(skippability)和可跳出性(escapability)</a>）。</p>
 
 			<p>[<cite><a class="bibref" data-link-type="biblio" href="#bib-epub-33" title="EPUB 3.3">epub-33</a></cite>]規格定義了使用屬性軸線來添增結構語意的方法：而不添加新元素。EPUB製作者可以在現成的元素中透過附加<code>epub:type</code>屬性來添加想要的語意。本文件定義了一系列的特性與值，也就是用語集，能供本目的使用。</p>
 
@@ -3275,7 +3275,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 				</dd>
 				<dd>
 					<p>
-						<span class="subproplabel">媒體覆蓋使用脈絡（Media overlays usage context）：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的表格結構。</p>
+						<span class="subproplabel">媒體層疊使用脈絡（Media overlays usage context）：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的表格結構。</p>
 				</dd>
 
 				<dt id="table-row">table-row</dt>
@@ -3288,7 +3288,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 				</dd>
 				<dd>
 					<p>
-						<span class="subproplabel">媒體覆蓋使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的表格列。</p>
+						<span class="subproplabel">媒體層疊使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的表格列。</p>
 				</dd>
 
 				<dt id="table-cell">table-cell</dt>
@@ -3301,7 +3301,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 				</dd>
 				<dd>
 					<p>
-						<span class="subproplabel">媒體覆蓋使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的表格儲存格。</p>
+						<span class="subproplabel">媒體層疊使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的表格儲存格。</p>
 				</dd>
 			</dl>
 		</section>
@@ -3319,7 +3319,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 				</dd>
 				<dd>
 					<p>
-						<span class="subproplabel">媒體覆蓋使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的列表結構。</p>
+						<span class="subproplabel">媒體層疊使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的列表結構。</p>
 				</dd>
 
 				<dt id="list-item">list-item</dt>
@@ -3332,7 +3332,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 				</dd>
 				<dd>
 					<p>
-						<span class="subproplabel">媒體覆蓋使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的列表項目。</p>
+						<span class="subproplabel">媒體層疊使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的列表項目。</p>
 				</dd>
 			</dl>
 		</section>
@@ -3350,7 +3350,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 				</dd>
 				<dd>
 					<p>
-						<span class="subproplabel">媒體覆蓋使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的圖片。</p>
+						<span class="subproplabel">媒體層疊使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的圖片。</p>
 				</dd>
 			</dl>
 		</section>
@@ -3368,7 +3368,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 				</dd>
 				<dd>
 					<p>
-						<span class="subproplabel">媒體覆蓋使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的次要內容。</p>
+						<span class="subproplabel">媒體層疊使用脈絡：</span>用於識別<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-seq">seq</a></code>或<code><a data-type="element" href="https://www.w3.org/TR/epub-33/#dfn-par">par</a></code>是否為可跳出或可跳過的次要內容。</p>
 				</dd>
 			</dl>
 		</section>
